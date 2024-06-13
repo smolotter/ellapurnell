@@ -1,12 +1,26 @@
 import streamlit
-from seleniumprint import file_to_pdf
 
-# input_html_file_path="/Users/user/path/to/input.html"
-# output_pdf_file_path="/Users/user/path/to/output.pdf"
+with st.echo():
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+    from webdriver_manager.chrome import ChromeDriverManager
+    from webdriver_manager.core.os_manager import ChromeType
 
-# file_to_pdf(input_html_file_path, output_pdf_file_path)
+    @st.cache_resource
+    def get_driver():
+        return webdriver.Chrome(
+            service=Service(
+                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            ),
+            options=options,
+        )
 
-# input_html_url="http://localhost:8000/report/1"
-# output_pdf_file_path="./report_pdfs/report_1.pdf"
+    options = Options()
+    options.add_argument("--disable-gpu")
+    options.add_argument("--headless")
 
-# url_to_pdf(input_html_url, output_pdf_file_path)
+    driver = get_driver()
+    driver.get("http://example.com")
+
+    st.code(driver.page_source)

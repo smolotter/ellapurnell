@@ -1,0 +1,4 @@
+ghostscript
+chromium
+seleniumbase
+webdriver-manager
