@@ -28,6 +28,7 @@ driver.get("http://example.com")
 st.code(driver.page_source)
 
 
+st.write("lorem")
 
 # with open("sample.pdf", "rb") as pdf_file:
 #     data = pdf_file.read()
