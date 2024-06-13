@@ -1,3 +1,4 @@
+import streamlit
 from seleniumprint import file_to_pdf
 
 input_html_file_path="/Users/user/path/to/input.html"
