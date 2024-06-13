@@ -1,4 +1,4 @@
-import streamlit
+import streamlit as st
 
 with st.echo():
     from selenium import webdriver
