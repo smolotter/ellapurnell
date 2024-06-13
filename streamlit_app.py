@@ -33,7 +33,7 @@ import os
 # path = os.path.abspath('index.html')
 # converter.convert(f'file:///{path}', 'sample.pdf') #local file
 
-converter.convert('https://pypi.org', 'sample.pdf') #web based
+converter.convert('http://example.com', 'sample.pdf') #web based
 
 
 with open("sample.pdf", "rb") as pdf_file:
