@@ -1,5 +1,6 @@
 import streamlit as st
 
+from pyhtml2pdf import converter
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -28,7 +29,7 @@ st.write("test")
 
 
 import os
-from pyhtml2pdf import converter
+
 # path = os.path.abspath('index.html')
 # converter.convert(f'file:///{path}', 'sample.pdf') #local file
 
