@@ -1,6 +1,5 @@
 import streamlit as st
 
-from pyhtml2pdf import converter
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -22,20 +21,14 @@ options.add_argument("--disable-gpu")
 options.add_argument("--headless")
 
 driver = get_driver()
-# driver.get("http://example.com")
+driver.get("http://example.com")
 
 
-st.write("test") 
+
+st.code(driver.page_source)
 
 
-import os
 
-# path = os.path.abspath('index.html')
-# converter.convert(f'file:///{path}', 'sample.pdf') #local file
-
-converter.convert('http://example.com', 'sample.pdf') #web based
-
-
-with open("sample.pdf", "rb") as pdf_file:
-    data = pdf_file.read()
-st.download_button("Download sample.pdf", data=data, file_name="sample.pdf")
+# with open("sample.pdf", "rb") as pdf_file:
+#     data = pdf_file.read()
+# st.download_button("Download sample.pdf", data=data, file_name="sample.pdf")
