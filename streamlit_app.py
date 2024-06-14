@@ -47,7 +47,9 @@ def html_to_pdf(html_file_path):
     
 
 
-def unzip_and_pdf(zip_obj):
+def unzip_and_pdf(zip_obj, comp_name):
+
+    st.write(f"Processing {comp_name}")
 
     zip_data = zip_obj.read()
     folder_name = zip_obj.name # Use the name of the uploaded file as the destination folder
@@ -70,22 +72,18 @@ def unzip_and_pdf(zip_obj):
             st.write(f"...... processing {file}")
             pdf_path = html_to_pdf(folder_name + "/" + file)
             st.write(f"...... pdf path is {pdf_path}")
-            pdf_files[file.replace(".html",".pdf")] = pdf_path
+            pdf_files[comp_name + "_" + file.replace(".html",".pdf")] = pdf_path
 
 
 pdf_files = {}
 if zip_1:
-    st.write ("Processing Zip 1 ...")
-    unzip_and_pdf(zip_1)
+    unzip_and_pdf(zip_1, "covernote")
 if zip_2:
-    st.write ("Processing Zip 2 ...")
-    unzip_and_pdf(zip_2)
+    unzip_and_pdf(zip_2, "body")
 if zip_3:
-    st.write ("Processing Zip 3 ...")
-    unzip_and_pdf(zip_3)
+    unzip_and_pdf(zip_3, "annex")
 if zip_4:
-    st.write ("Processing Zip 4 ...")
-    unzip_and_pdf(zip_4)
+    unzip_and_pdf(zip_4, "distlist")
 
 st.write(f"pdf_files contains {pdf_files}")
 
