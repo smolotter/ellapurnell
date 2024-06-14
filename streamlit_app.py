@@ -71,7 +71,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
         st.write(file)
         pdf_path = html_to_pdf(file)
         st.write(pdf_path)
-        # pdf_files[filename[:-5] + ".pdf"] = pdf_path
+        pdf_files[filename[:-5] + ".pdf"] = pdf_path
 
 
 
@@ -81,8 +81,8 @@ if zip_1:
 
 
 
-for pdf_name, pdf_path in pdf_files.items():
-    st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
+# for pdf_name, pdf_path in pdf_files.items():
+#     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
 
 
 
