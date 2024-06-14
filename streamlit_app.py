@@ -46,7 +46,7 @@ def unzip_and_pdf(zip_obj, comp_name):
     with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
         zip_ref.extractall(folder_name)
                 
-        st.write(f"contents of {foldername}")
+        st.write(f"contents of {folder_name}")
         st.json(zip_ref.namelist())
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
