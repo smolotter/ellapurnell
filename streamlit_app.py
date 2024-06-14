@@ -8,7 +8,7 @@ def html_to_pdf(html_file_path):
     pdf_file.close()
 
     command = [
-        "google-chrome-stable",
+        "chromium",
         "--headless",
         "--no-sandbox",
         "--disable-gpu",
