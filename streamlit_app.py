@@ -6,7 +6,7 @@ import tempfile
 import os
 from collections import OrderedDict
 import PyPDF2
-import PyPDF2
+
 
 st.title("ZIP to PDF Converter")
 
@@ -74,7 +74,7 @@ if zip_4:
 
 
 # For debugging
-st.write(f"Individual pdf files created...")
+st.write(f"Individual pdf files...")
 st.json(pdf_files)
 for pdf_name, pdf_path in pdf_files.items():
     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
