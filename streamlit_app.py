@@ -70,7 +70,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
             st.write(f"...... processing {file}")
             pdf_path = html_to_pdf(file)
             st.write(f"...... pdf path is {pdf_path}")
-            pdf_files[file] = pdf_path
+            pdf_files[file.replace(".html",".pdf")] = pdf_path
 
 
 pdf_files = {}
