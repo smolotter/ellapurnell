@@ -39,8 +39,10 @@ def unzip_and_pdf(zip_obj, comp_name):
 
     st.write(f"Processing {comp_name}")
 
+    file_name = zip_obj.name
+    folder_name = file_name
+
     zip_data = zip_obj.read()
-    folder_name = zip_obj.name # Use the name of the uploaded file as the destination folder
 
     # Unzip the file
     with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
@@ -50,9 +52,6 @@ def unzip_and_pdf(zip_obj, comp_name):
         st.json(zip_ref.namelist())
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
-    files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
-    st.write("... interating through files in parent directory")
-    st.json(files)
 
     for file in files:
         if file.endswith(".html"):  # Check if filename ends with ".html"
