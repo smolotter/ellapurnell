@@ -117,18 +117,15 @@ st.json(list_SMC)
 
 
 def combine_pdfs(pdf_files):
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
-      pdf_writer = PyPDF2.PdfWriter()
-      for pdf_file in pdf_files:
-        with open(pdf_file, 'rb') as f:
-            pdf_reader = PyPDF2.PdfReader(f)
-            for page_num in range(len(pdf_reader.pages)):
-                page = pdf_reader.pages[page_num]
-                pdf_writer.addPage(page)
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    merger = PdfWriter()
 
-      pdf_writer.write(temp_file)
-      return temp_file.name
+    for pdf in pdf_files:
+        merger.append(pdf)
 
+    merger.write(temp_file)
+    merger.close()
+    return temp_file.name
 
 
 combined_A4 = combine_pdfs(list_A4)
