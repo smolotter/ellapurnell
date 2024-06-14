@@ -16,7 +16,7 @@ zip_2 = st.file_uploader("Upload ZIP File 2", type="zip")
 zip_3 = st.file_uploader("Upload ZIP File 3", type="zip")
 zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
 
-
+# Define function to convert html to pdf
 def html_to_pdf(html_file_path):
     pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     pdf_file.close()
@@ -35,9 +35,10 @@ def html_to_pdf(html_file_path):
 
     return pdf_file.name
 
+# Define function to unzip and pdf
 def unzip_and_pdf(zip_obj, comp_name):
 
-    st.write(f"Processing {comp_name}")
+    st.write(f"Processing {comp_name}...")
 
     file_name = zip_obj.name
     folder_name = file_name
@@ -48,9 +49,8 @@ def unzip_and_pdf(zip_obj, comp_name):
     with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
         zip_ref.extractall(folder_name)
                 
-        st.write(f"contents of {folder_name}")
-        st.json(zip_ref.namelist())
-
+        st.write(f"...contents of {folder_name} is {zip_ref.namelist()}")
+        
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
     files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
 
@@ -92,12 +92,11 @@ for key, value in pdf_files.items():
 
 # For debugging
 st.write("Sorted into A4 and SMC pdfs...")
-st.write("A4 pdfs:")
-st.json(list_A4)
-st.write ("SMC pdfs:")
-st.json(list_SMC)
+st.write(f"...A4 pdfs is {list_A4}")
+st.write (f"...SMC pdfs is {list_SMC}")
 
 
+# Combine the PDFs
 def combine_pdfs(pdf_files):
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     merger = PyPDF2.PdfWriter()
@@ -111,6 +110,7 @@ def combine_pdfs(pdf_files):
 
 combined_A4 = combine_pdfs(list_A4)
 combined_SMC = combine_pdfs(list_SMC)
+
 
 # For debugging
 st.write("Combined PDFs...")
