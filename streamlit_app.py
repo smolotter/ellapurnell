@@ -52,6 +52,7 @@ def unzip_and_pdf(zip_obj, comp_name):
         st.json(zip_ref.namelist())
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
+    files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
 
     for file in files:
         if file.endswith(".html"):  # Check if filename ends with ".html"
@@ -72,7 +73,7 @@ if zip_4:
     unzip_and_pdf(zip_4, "distlist")
 
 
-# This is just for debugging...
+# For debugging
 st.write(f"Individual pdf files created:")
 st.json(pdf_files)
 for pdf_name, pdf_path in pdf_files.items():
