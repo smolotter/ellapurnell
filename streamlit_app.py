@@ -146,4 +146,4 @@ combined_A4 = combine_pdfs(list_A4)
 combined_SMC = combine_pdfs(list_SMC)
 
 st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read())
-st.download_button(label="combined_SMC.pdf", data=open(pdf_path, 'rb').read())
+st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read())
