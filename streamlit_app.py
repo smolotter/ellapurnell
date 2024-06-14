@@ -63,10 +63,8 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
     files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
+    st.write(f"... looking for html files in {files}")
 
-
-
-    pdf_files = {}
     for file in files:
         st.write(file)
         pdf_path = html_to_pdf(file)
@@ -74,7 +72,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
         pdf_files[filename[:-5] + ".pdf"] = pdf_path
 
 
-
+pdf_files = {}
 if zip_1:
     st.write ("Processing Zip 1 ...")
     folder_name = unzip_to_folder(zip_1)
