@@ -5,6 +5,8 @@ import subprocess
 import tempfile
 import os
 from collections import OrderedDict
+import PyPDF2
+
 
 st.title("ZIP to PDF Converter")
 
@@ -109,6 +111,46 @@ st.write("A4 pdfs:")
 st.json(list_A4)
 st.write ("SMC pdfs:")
 st.json(list_SMC)
+
+
+
+
+def concatenate_pdfs(pdf_files, output_filename):
+    """Concatenates multiple PDF files into a single output PDF.
+
+    Args:
+        pdf_files (list): A list of file paths of the PDFs to concatenate.
+        output_filename (str): The filename of the resulting concatenated PDF.
+    """
+
+    pdf_reader_list = []
+    for filename in pdf_files:
+        with open(filename, 'rb') as pdf_file:
+            pdf_reader = PyPDF2.PdfReader(pdf_file)
+            pdf_reader_list.append(pdf_reader)
+
+    pdf_writer = PyPDF2.PdfWriter()
+
+    for pdf_reader in pdf_reader_list:
+        for page_num in range(pdf_reader.getNumPages()):
+            page = pdf_reader.pages[page_num]
+            pdf_writer.addPage(page)
+
+    with open(output_filename, 'wb') as output_file:
+        pdf_writer.write(output_file)
+
+# Example usage
+pdf_files = [
+    "path/to/file1.pdf",
+    "path/to/file2.pdf",
+    "path/to/file3.pdf",
+    # ...
+]
+output_filename = "merged_output.pdf"
+
+concatenate_pdfs(pdf_files, output_filename)
+
+print(f"PDFs concatenated successfully! Output file: {output_filename}")
 
 
 
