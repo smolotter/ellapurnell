@@ -76,8 +76,7 @@ def unzip_and_pdf(zip_obj, comp_name):
             pdf_files[comp_name + "_" + file.replace(".html",".pdf")] = pdf_path
 
 
-pdf_files = OrderedDict() # To maintain insertion order because im too lazy to build a checking feature
-
+pdf_files = OrderedDict() # To maintain insertion order, use this rather than a normal dictionary
 if zip_1:
     unzip_and_pdf(zip_1, "covernote")
 if zip_2:
@@ -89,29 +88,27 @@ if zip_4:
 
 
 
-
-st.write(f"pdf_files contains {pdf_files}")
+# This is just for debugging...
+st.write(f"Individual pdf files created:")
 st.json(pdf_files)
-
 for pdf_name, pdf_path in pdf_files.items():
     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
-
-
 
 
 list_A4 = []
 list_SMC = []
 
-# Filter based on key presence and absence of "SMC" (this is why an OrderedDict is necessary)
+# Filter based on key presence and absence of "SMC" 
 for key, value in pdf_files.items():
     if "index.pdf" in key and "SMC_index.pdf" not in key:
         list_A4.append(value)
     elif "SMC_index.pdf" in key:
         list_SMC.append(value)
 
-st.write(f"list_A4: {list_A4}")
-st.write(f"list_SMC: {list_SMC}")
-
+st.write("A4 pdfs:")
+st.json(list_A4)
+st.write ("SMC pdfs:")
+st.json(list_SMC)
 
 
 
