@@ -74,17 +74,15 @@ if zip_4:
 
 
 # For debugging
-st.write(f"Individual pdf files created:")
+st.write(f"Individual pdf files created...")
 st.json(pdf_files)
 for pdf_name, pdf_path in pdf_files.items():
     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
 
 
+# Filter based on key presence and absence of "SMC" 
 list_A4 = []
 list_SMC = []
-
-
-# Filter based on key presence and absence of "SMC" 
 for key, value in pdf_files.items():
     if "index.pdf" in key and "SMC_index.pdf" not in key:
         list_A4.append(value)
@@ -92,6 +90,8 @@ for key, value in pdf_files.items():
         list_SMC.append(value)
 
 
+# For debugging
+st.write("Sorted into A4 and SMC pdfs...")
 st.write("A4 pdfs:")
 st.json(list_A4)
 st.write ("SMC pdfs:")
@@ -109,10 +109,11 @@ def combine_pdfs(pdf_files):
     merger.close()
     return temp_file.name
 
-
 combined_A4 = combine_pdfs(list_A4)
 combined_SMC = combine_pdfs(list_SMC)
 
+# For debugging
+st.write("Combined PDFs...")
 st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read(), file_name="combined_A4.pdf")
 st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(), file_name="combined_SMC.pdf")
 
