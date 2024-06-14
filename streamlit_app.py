@@ -16,20 +16,6 @@ zip_2 = st.file_uploader("Upload ZIP File 2", type="zip")
 zip_3 = st.file_uploader("Upload ZIP File 3", type="zip")
 zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def html_to_pdf(html_file_path):
     pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     pdf_file.close()
@@ -47,8 +33,6 @@ def html_to_pdf(html_file_path):
     process.communicate()
 
     return pdf_file.name
-    
-
 
 def unzip_and_pdf(zip_obj, comp_name):
 
@@ -89,7 +73,6 @@ if zip_4:
     unzip_and_pdf(zip_4, "distlist")
 
 
-
 # This is just for debugging...
 st.write(f"Individual pdf files created:")
 st.json(pdf_files)
@@ -100,6 +83,7 @@ for pdf_name, pdf_path in pdf_files.items():
 list_A4 = []
 list_SMC = []
 
+
 # Filter based on key presence and absence of "SMC" 
 for key, value in pdf_files.items():
     if "index.pdf" in key and "SMC_index.pdf" not in key:
@@ -107,13 +91,11 @@ for key, value in pdf_files.items():
     elif "SMC_index.pdf" in key:
         list_SMC.append(value)
 
+
 st.write("A4 pdfs:")
 st.json(list_A4)
 st.write ("SMC pdfs:")
 st.json(list_SMC)
-
-
-
 
 
 def combine_pdfs(pdf_files):
@@ -133,3 +115,4 @@ combined_SMC = combine_pdfs(list_SMC)
 
 st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read(), file_name="combined_A4.pdf")
 st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(), file_name="combined_SMC.pdf")
+
