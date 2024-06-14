@@ -37,6 +37,7 @@ def html_to_pdf(html_file_path):
         "--headless",
         "--no-sandbox",
         "--disable-gpu",
+        "--no-pdf-header-footer",
         "--print-to-pdf=" + pdf_file.name,
         html_file_path,
     ]
