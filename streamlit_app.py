@@ -118,7 +118,7 @@ st.json(list_SMC)
 
 def combine_pdfs(pdf_files):
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-    merger = PdfWriter()
+    merger = PyPDF2.PdfWriter()
 
     for pdf in pdf_files:
         merger.append(pdf)
