@@ -87,7 +87,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 
     # Print the list of files
     for file in files:
-    print(file)
+        print(file)
 
 
 
