@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 import os
 from collections import OrderedDict
-import PyPDF2
+from PyPDF2 import PdfWriter
 
 
 st.title("ZIP to PDF Converter")
@@ -99,7 +99,7 @@ st.write (f"...SMC pdfs is {list_SMC}")
 # Combine the PDFs
 def combine_pdfs(pdf_files):
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-    merger = PyPDF2.PdfWriter()
+    merger = PdfWriter()
 
     for pdf in pdf_files:
         merger.append(pdf)
