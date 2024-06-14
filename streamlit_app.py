@@ -16,8 +16,6 @@ zip_2 = st.file_uploader("Upload ZIP File 2", type="zip")
 zip_3 = st.file_uploader("Upload ZIP File 3", type="zip")
 zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
 
-debug_container = st.container
-
 
 def html_to_pdf(html_file_path):
     pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
@@ -39,29 +37,29 @@ def html_to_pdf(html_file_path):
 
 def unzip_and_pdf(zip_obj, comp_name):
 
-    debug_container.write(f"Processing {comp_name}")
+    st.write(f"Processing {comp_name}")
 
     zip_data = zip_obj.read()
     folder_name = zip_obj.name # Use the name of the uploaded file as the destination folder
 
-    debug_container.write(f"... unzipping {folder_name}")
+    st.write(f"... unzipping {folder_name}")
 
     # Unzip the file
     with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
         zip_ref.extractall(folder_name)
         list_of_files = zip_ref.namelist()
         
-        debug_container.write(f"... unzipped {list_of_files}")
+        st.write(f"... unzipped {list_of_files}")
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
     files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
-    debug_container.write(f"... looking for html files in parent directory: {files}")
+    st.write(f"... looking for html files in parent directory: {files}")
 
     for file in files:
         if file.endswith(".html"):  # Check if filename ends with ".html"
-            debug_container.write(f"...... processing {file}")
+            st.write(f"...... processing {file}")
             pdf_path = html_to_pdf(folder_name + "/" + file)
-            debug_container.write(f"...... pdf path is {pdf_path}")
+            st.write(f"...... pdf path is {pdf_path}")
             pdf_files[comp_name + "_" + file.replace(".html",".pdf")] = pdf_path
 
 
@@ -94,11 +92,11 @@ for key, value in pdf_files.items():
     elif "SMC_index.pdf" in key:
         list_SMC.append(value)
 
-with debug_container:
-    st.write("A4 pdfs:")
-    st.json(list_A4)
-    st.write ("SMC pdfs:")
-    st.json(list_SMC)
+
+st.write("A4 pdfs:")
+st.json(list_A4)
+st.write ("SMC pdfs:")
+st.json(list_SMC)
 
 
 def combine_pdfs(pdf_files):
@@ -116,7 +114,6 @@ def combine_pdfs(pdf_files):
 combined_A4 = combine_pdfs(list_A4)
 combined_SMC = combine_pdfs(list_SMC)
 
-with debug_container:
-    st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read(), file_name="combined_A4.pdf")
-    st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(), file_name="combined_SMC.pdf")
+st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read(), file_name="combined_A4.pdf")
+st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(), file_name="combined_SMC.pdf")
 
