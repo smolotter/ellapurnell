@@ -11,10 +11,10 @@ import PyPDF2
 st.title("ZIP to PDF Converter")
 
 # Accept 4 zip files
-zip_1 = st.file_uploader("Upload ZIP File 1", type="zip")
-zip_2 = st.file_uploader("Upload ZIP File 2", type="zip")
-zip_3 = st.file_uploader("Upload ZIP File 3", type="zip")
-zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
+zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
+zip_2 = st.file_uploader("Upload Main Product", type="zip")
+zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
+zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
 
 # Define function to convert html to pdf
 def html_to_pdf(html_file_path):
