@@ -75,7 +75,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 
     st.write(f"... unzipping {folder_name}")
 
-    with zipfile.ZipFile(io.BytesIO(zip_data), 'r') as zip_ref:
+    with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
         zip_ref.extractall(folder_name)
         list_of_files = zip_ref.namelist()
         
