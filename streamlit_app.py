@@ -65,13 +65,13 @@ def unzip_and_pdf(zip_obj, comp_name):
         st.write(f"... unzipped {list_of_files}")
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
-    files = [folder_name + f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
+    files = [folder_name + "/" + f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
     st.write(f"... looking for html files in parent directory: {files}")
 
     for file in files:
         if file.endswith(".html"):  # Check if filename ends with ".html"
             st.write(f"...... processing {file}")
-            pdf_path = html_to_pdf("/" + file)
+            pdf_path = html_to_pdf(file)
             st.write(f"...... pdf path is {pdf_path}")
             pdf_files[comp_name + "_" + file.replace(".html",".pdf")] = pdf_path
 
