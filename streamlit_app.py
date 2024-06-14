@@ -47,7 +47,7 @@ def html_to_pdf(html_file_path):
     
 
 
-def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
+def unzip_and_pdf(zip_obj):
 
     zip_data = zip_obj.read()
     folder_name = zip_obj.name # Use the name of the uploaded file as the destination folder
@@ -63,7 +63,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
     files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
-    st.write(f"... looking for html files in parent directory {files}")
+    st.write(f"... looking for html files in parent directory: {files}")
 
     for file in files:
         if file.endswith(".html"):  # Check if filename ends with ".html"
@@ -76,9 +76,18 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 pdf_files = {}
 if zip_1:
     st.write ("Processing Zip 1 ...")
-    unzip_to_folder(zip_1)
-    st.write(f"pdf_files contains {pdf_files}")
+    unzip_and_pdf(zip_1)
+if zip_2:
+    st.write ("Processing Zip 2 ...")
+    unzip_and_pdf(zip_2)
+if zip_3:
+    st.write ("Processing Zip 3 ...")
+    unzip_and_pdf(zip_3)
+if zip_4:
+    st.write ("Processing Zip 4 ...")
+    unzip_and_pdf(zip_4)
 
+st.write(f"pdf_files contains {pdf_files}")
 
 for pdf_name, pdf_path in pdf_files.items():
     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
