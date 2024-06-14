@@ -66,10 +66,11 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
     st.write(f"... looking for html files in {files}")
 
     for file in files:
-        st.write(file)
-        pdf_path = html_to_pdf(file)
-        st.write(pdf_path)
-        pdf_files[filename[:-5] + ".pdf"] = pdf_path
+        if file.endswith(".html"):  # Check if filename ends with ".html"
+            st.write(f"... processing {file}")
+            pdf_path = html_to_pdf(file)
+            st.write(pdf_path)
+            pdf_files[filename[:-5] + ".pdf"] = pdf_path
 
 
 pdf_files = {}
