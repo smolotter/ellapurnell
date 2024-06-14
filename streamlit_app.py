@@ -17,7 +17,6 @@ zip_3 = st.file_uploader("Upload ZIP File 3", type="zip")
 zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
 
 debug_container = st.container
-debug_container.title("Debug")
 
 
 def html_to_pdf(html_file_path):
