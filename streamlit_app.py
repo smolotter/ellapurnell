@@ -4,6 +4,7 @@ from io import BytesIO
 import tempfile
 
 def html_to_pdf(html_file_path):
+    print ("code failing1")
     pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     pdf_file.close()
 
@@ -15,7 +16,7 @@ def html_to_pdf(html_file_path):
         "--print-to-pdf=" + pdf_file.name,
         html_file_path,
     ]
-
+    print ("code failing2")
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     process.communicate()
 
