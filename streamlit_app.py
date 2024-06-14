@@ -75,13 +75,20 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
 
     st.write(f"... unzipping {folder_name}")
 
+    # Unzip the file
     with zipfile.ZipFile(BytesIO(zip_data), 'r') as zip_ref:
         zip_ref.extractall(folder_name)
         list_of_files = zip_ref.namelist()
         
         st.write (f"... unzipped {list_of_files}")
 
-    return folder_name
+    # Get list of files in the directory
+    files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
+
+    # Print the list of files
+    for file in files:
+    print(file)
+
 
 
 
@@ -126,13 +133,5 @@ if zip_1:
 
 
 
-# # Specify the directory path
-# directory_path = "/path/to/your/folder"
 
-# # Get list of files in the directory
-# files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
-
-# # Print the list of files
-# for file in files:
-#   print(file)
 
