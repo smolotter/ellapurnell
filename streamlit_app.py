@@ -80,8 +80,8 @@ if zip_1:
     st.write(f"pdf_files contains {pdf_files}")
 
 
-# for pdf_name, pdf_path in pdf_files.items():
-#     st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
+for pdf_name, pdf_path in pdf_files.items():
+    st.download_button(label=pdf_name, data=open(pdf_path, 'rb').read(), file_name=pdf_name)
 
 
 
