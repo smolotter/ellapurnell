@@ -1,35 +1,23 @@
 import streamlit as st
 
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
+import subprocess
+import tempfile
 
-@st.cache_resource
-def get_driver():
-    return webdriver.Chrome(
-        service=Service(
-            ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-        ),
-        options=options,
-    )
+def html_to_pdf(html_file_path):
+    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    pdf_file.close()
 
-options = Options()
-options.add_argument("--disable-gpu")
-options.add_argument("--headless")
+    command = [
+        "google-chrome-stable",
+        "--headless",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--print-to-pdf=" + pdf_file.name,
+        html_file_path,
+     ]
 
-driver = get_driver()
-driver.get("http://example.com")
+     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+     process.communicate()
 
-
-
-st.code(driver.page_source)
-
-
-st.write("lorem")
-
-# with open("sample.pdf", "rb") as pdf_file:
-#     data = pdf_file.read()
-# st.download_button("Download sample.pdf", data=data, file_name="sample.pdf")
+     return pdf_file_path

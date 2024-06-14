@@ -1,4 +1,1 @@
 streamlit==1.26.0
-seleniumbase
-webdriver-manager
-pyhtml2pdf
