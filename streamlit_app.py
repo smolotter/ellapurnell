@@ -28,7 +28,22 @@ zip_4 = st.file_uploader("Upload ZIP File 4", type="zip")
 
 
 
+def html_to_pdf(html_file_path):
+    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    pdf_file.close()
 
+    command = [
+        "chromium",
+        "--headless",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--print-to-pdf=" + pdf_file.name,
+        html_file_path,
+    ]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process.communicate()
+
+    return pdf_file.name
     
 
 
@@ -49,22 +64,7 @@ def unzip_to_folder(zip_obj): #Unzip the object uploaded in streamlit
     # Get list of files in the directory (this only looks at the parent directory, not the subdirectories.)
     files = [f for f in os.listdir(folder_name) if os.path.isfile(os.path.join(folder_name, f))]
 
-    def html_to_pdf(html_file_path):
-        pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-        pdf_file.close()
 
-        command = [
-            "chromium",
-            "--headless",
-            "--no-sandbox",
-            "--disable-gpu",
-            "--print-to-pdf=" + pdf_file.name,
-            html_file_path,
-        ]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        process.communicate()
-
-        return pdf_file.name
 
     pdf_files = {}
     for file in files:
