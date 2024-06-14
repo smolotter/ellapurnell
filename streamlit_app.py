@@ -6,7 +6,7 @@ import tempfile
 import os
 from collections import OrderedDict
 import PyPDF2
-
+import PyPDF2
 
 st.title("ZIP to PDF Converter")
 
@@ -115,42 +115,35 @@ st.json(list_SMC)
 
 
 
-def concatenate_pdfs(pdf_files, output_filename):
-    """Concatenates multiple PDF files into a single output PDF.
 
-    Args:
-        pdf_files (list): A list of file paths of the PDFs to concatenate.
-        output_filename (str): The filename of the resulting concatenated PDF.
-    """
 
-    pdf_reader_list = []
-    for filename in pdf_files:
-        with open(filename, 'rb') as pdf_file:
-            pdf_reader = PyPDF2.PdfReader(pdf_file)
-            pdf_reader_list.append(pdf_reader)
+def combine_pdfs(pdf_files):
+  """
+  Combines a list of PDF files into a single temporary PDF file.
 
+  Args:
+      pdf_files (list): A list of file paths to the PDFs to combine.
+
+  Returns:
+      str: The path to the temporary file containing the combined PDF.
+  """
+
+  with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
     pdf_writer = PyPDF2.PdfWriter()
 
-    for pdf_reader in pdf_reader_list:
+    for pdf_file in pdf_files:
+      with open(pdf_file, 'rb') as f:
+        pdf_reader = PyPDF2.PdfReader(f)
         for page_num in range(pdf_reader.getNumPages()):
-            page = pdf_reader.pages[page_num]
-            pdf_writer.addPage(page)
+          page = pdf_reader.pages[page_num]
+          pdf_writer.addPage(page)
 
-    with open(output_filename, 'wb') as output_file:
-        pdf_writer.write(output_file)
-
-# Example usage
-pdf_files = [
-    "path/to/file1.pdf",
-    "path/to/file2.pdf",
-    "path/to/file3.pdf",
-    # ...
-]
-output_filename = "merged_output.pdf"
-
-concatenate_pdfs(pdf_files, output_filename)
-
-print(f"PDFs concatenated successfully! Output file: {output_filename}")
+    pdf_writer.write(temp_file)
+    return temp_file.name
 
 
+combined_A4 = combine_pdfs(list_A4)
+combined_SMC = combine_pdfs(list_SMC)
 
+st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read())
+st.download_button(label="combined_SMC.pdf", data=open(pdf_path, 'rb').read())
