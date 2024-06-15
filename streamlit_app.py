@@ -13,6 +13,13 @@ import shutil
 
 st.title("ZIP to PDF Converter")
 
+
+
+st.write ("check tmp contents")
+
+st.write(os.listdir("/tmp"))
+
+
 def delete_old_files():
     # Get current time in seconds
     current_time = time.time()
@@ -52,11 +59,14 @@ def delete_old_files():
                     sti.write(f"Could not delete directory: {dir_path}")
             st.write(f"Did not delete {dir_path} as younger than expiry mins")
 
-    print("Finished cleaning directory.")
+    st.write("Finished cleaning directory.")
 
 delete_old_files()
 
 
+st.write ("check tmp contents")
+
+st.write(os.listdir("/tmp"))
 
 
 # Accept 4 zip files
