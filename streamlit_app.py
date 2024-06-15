@@ -13,55 +13,6 @@ import shutil
 
 st.title("ZIP to PDF Converter")
 
-
-
-st.write ("check tmp contents")
-st.write(os.listdir("/tmp"))
-
-
-def delete_old_files():
-    # Get current time in seconds
-    current_time = time.time()
-    # Convert x minutes to seconds
-    expiry_minutes = 1 * 60
-
-    for root, dirs, files in os.walk("/tmp"):
-        for filename in files:
-            # Get the full path of the file
-            file_path = os.path.join(root, filename)
-            # Get the last modification time of the file
-            last_modified = os.path.getmtime(file_path)
-
-            # Check if the file is older than x minutes
-            if current_time - last_modified > expiry_minutes:
-                # Delete the file
-                try:
-                    os.remove(file_path)
-                    st.write(f"Deleted: {file_path}")
-                except:
-                    st.write(f"Could not delete {file_path}")
-            else:
-                st.write(f"Did not delete {file_path} as younger than expiry mins")
-
-        # for directory in dirs:
-        #     # Get full path of the directory
-        #     dir_path = os.path.join(root, directory)
-        #     # Check directory modification time (similar to files)
-        #     dir_last_modified = os.path.getmtime(dir_path)
-        #     # Check if directory is older than expiry
-        #     if current_time - dir_last_modified > expiry_minutes:
-        #         # Use shutil.rmtree to delete directory and contents
-        #         try:
-        #             shutil.rmtree(dir_path)
-        #             st.write(f"Deleted directory: {dir_path}")
-        #         except:
-        #             sti.write(f"Could not delete directory: {dir_path}")
-        #     st.write(f"Did not delete {dir_path} as younger than expiry mins")
-
-    st.write("Finished cleaning directory.")
-
-delete_old_files()
-
 # Accept 4 zip files
 zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
 zip_2 = st.file_uploader("Upload Main Product", type="zip")
