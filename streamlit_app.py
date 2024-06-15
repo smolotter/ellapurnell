@@ -9,6 +9,10 @@ from PyPDF2 import PdfWriter
 import time
 import uuid
 
+
+
+st.title("ZIP to PDF Converter")
+
 st.write ("init")
 
 def delete_old_files():
@@ -38,8 +42,6 @@ delete_old_files()
 
 
 
-
-st.title("ZIP to PDF Converter")
 
 # Accept 4 zip files
 zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
