@@ -34,6 +34,8 @@ def delete_old_files():
                     st.write(f"Deleted: {file_path}")
                 except:
                     st.write(f"Could not delete {file_path}")
+            else:
+                st.write(f"Did not delete {file_path} as younger than expiry mins")
 
         for directory in dirs:
             # Get full path of the directory
@@ -48,6 +50,7 @@ def delete_old_files():
                     st.write(f"Deleted directory: {dir_path}")
                 except:
                     sti.write(f"Could not delete directory: {dir_path}")
+            st.write(f"Did not delete {dir_path} as younger than expiry mins")
 
     print("Finished cleaning directory.")
 
