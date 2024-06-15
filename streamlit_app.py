@@ -10,9 +10,9 @@ import time
 
 st.title("ZIP to PDF Converter")
 
-def unzip_file(stfileuploader, component_name, temp_dir=temp_dir):
-    ''' Unzips a file (stfileuploader, from st.file_uploader), to a destination (temp_dir/component_name) '''
-    destination = os.path.join(temp_dir, component_name)
+def unzip_file(stfileuploader, component, temp_dir):
+    ''' Unzips a file (stfileuploader, from st.file_uploader), to a destination (temp_dir/component) '''
+    destination = os.path.join(temp_dir, component)
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
         zip_ref.extractall(destination)
 
