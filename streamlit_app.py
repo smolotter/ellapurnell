@@ -165,7 +165,7 @@ elif folder_size > 1024:
 else:
   unit = "bytes"
 
-print(f"Total size of folder '{folder_path}': {folder_size:.2f} {unit}")
+st.write(f"Total size of folder '{folder_path}': {folder_size:.2f} {unit}")
 
 
 
