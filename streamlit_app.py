@@ -19,7 +19,7 @@ def unzip_file(stfileuploader, component_name, temp_dir=temp_dir):
     return destination
 
 def html_to_pdf(html_file_path, pdf_file_path):
-
+    """Converts an HTML file to PDF using Chromium."""
     command = [
                 "chromium",
                 "--headless",
@@ -35,13 +35,13 @@ def html_to_pdf(html_file_path, pdf_file_path):
     return pdf_file_path
 
 def combine_pdfs(list_of_individual_files, output_file_path):
-    
+    """Combines a list of PDFs into a single PDF."""
     merger = PdfWriter()
 
     for pdf in list_of_individual_files:
         merger.append(pdf)
 
-    merger.write(temp_file)
+    merger.write(output_file_path)
     merger.close()
 
     return output_file_path
@@ -49,28 +49,29 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
 
-    # Create working files
-    filenames = ["A4_1.pdf", "SMC_1.pdf",
-                 "A4_2.pdf", "SMC_2.pdf",
-                 "A4_3.pdf", "SMC_3.pdf",
-                 "A4_4.pdf", "SMC_4.pdf",
-                 "A4_C.pdf", "SMC_C.pdf",
-                 "A4_O.pdf", "SMC_O.pdf",
-                 ]
-    for filename in filenames:
-        filepath = os.path.join(temp_dir, filename)
-        with open(filepath, 'wb') as f:  # Use 'wb' for binary data
-            pass  # Empty file creation
-
-    # Create lists of individual pdfs
-    list_A4 = []
-    list_SMC = []
+    # # Create working files
+    # filenames = ["A4_1.pdf", "SMC_1.pdf",
+    #              "A4_2.pdf", "SMC_2.pdf",
+    #              "A4_3.pdf", "SMC_3.pdf",
+    #              "A4_4.pdf", "SMC_4.pdf",
+    #              "A4_C.pdf", "SMC_C.pdf",
+    #              "A4_O.pdf", "SMC_O.pdf",
+    #              ]
+    # for filename in filenames:
+    #     filepath = os.path.join(temp_dir, filename)
+    #     with open(filepath, 'wb') as f:  # Use 'wb' for binary data
+    #         pass  # Empty file creation
    
     # Accept 4 zip files
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
     zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
     zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
+
+
+    # Create lists to hold individual pdfs
+    list_A4 = []
+    list_SMC = []
 
     # Iterate through the uploaded zip files
     if zip_1:
@@ -96,7 +97,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
                     )
         list_A4.append(A4_2)
         
-        SMC_2 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "SMC_index.html"),
+        SMC_2 = html_to_pdf(html_file_path = os.path.join(unzipped_2, "SMC_index.html"),
                     pdf_file_path = os.path.join(temp_dir, "SMC_2.pdf")
                     )
         list_SMC.append(SMC_2)
@@ -105,13 +106,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
         
         unzipped_3 = unzip_file(stfileuploader = zip_3, component = "3", temp_dir = temp_dir)
         
-        A4_3 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_1.pdf")
+        A4_3 = html_to_pdf(html_file_path = os.path.join(unzipped_3, "index.html"),
+                    pdf_file_path = os.path.join(temp_dir, "A4_3.pdf")
                     )
         list_A4.append(A4_3)
 
-        SMC_3 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_1.pdf")
+        SMC_3 = html_to_pdf(html_file_path = os.path.join(unzipped_3, "SMC_index.html"),
+                    pdf_file_path = os.path.join(temp_dir, "SMC_3.pdf")
                     )
         list_SMC.append(SMC_3)
 
@@ -119,13 +120,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
         
         unzipped_4 = unzip_file(stfileuploader = zip_4, component = "4", temp_dir = temp_dir)
 
-        A4_4 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_1.pdf")
+        A4_4 = html_to_pdf(html_file_path = os.path.join(unzipped_4, "index.html"),
+                    pdf_file_path = os.path.join(temp_dir, "A4_4.pdf")
                     )
         list_A4.append(A4_4)
 
-        SMC_4 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_1.pdf")
+        SMC_4 = html_to_pdf(html_file_path = os.path.join(unzipped_4, "SMC_index.html"),
+                    pdf_file_path = os.path.join(temp_dir, "SMC_4.pdf")
                     )
         list_SMC.append(SMC_4)
 
@@ -144,8 +145,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     # For debugging
     st.write("Combined PDFs...")
-    st.download_button(label="combined_A4.pdf", data=open(combined_A4, 'rb').read(), file_name="combined_A4.pdf")
-    st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(), file_name="combined_SMC.pdf")
+    st.download_button(label="combined_A4.pdf", data=open(A4_C, 'rb').read(), file_name="combined_A4.pdf")
+    st.download_button(label="combined_SMC.pdf", data=open(SMC_C, 'rb').read(), file_name="combined_SMC.pdf")
 
 
 
