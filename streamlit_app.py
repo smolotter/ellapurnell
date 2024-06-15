@@ -87,7 +87,7 @@ def unzip_and_pdf(zip_obj, comp_name):
     st.write(f"Processing {comp_name}...")
 
     file_name = zip_obj.name
-    folder_name = "tmp/" + file_name + "_" + str(uuid.uuid4())
+    folder_name = "/tmp/" + file_name + "_" + str(uuid.uuid4())
 
     zip_data = zip_obj.read()
 
