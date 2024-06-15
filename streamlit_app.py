@@ -123,5 +123,51 @@ st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(
 
 
 
+
+
+import os
+
+def get_folder_size(path):
+  """
+  Calculates the total size of a directory and its subdirectories.
+
+  Args:
+      path: The path to the directory.
+
+  Returns:
+      The total size of the directory in bytes.
+  """
+  total_size = 0
+  for root, _, files in os.walk(path):
+    for file in files:
+      file_path = os.path.join(root, file)
+      try:
+        total_size += os.path.getsize(file_path)
+      except OSError:
+        # Handle potential permission errors or other issues
+        pass
+  return total_size
+
+# Example usage
+folder_path = "/tmp"
+folder_size = get_folder_size(folder_path)
+
+# Convert to human-readable format (optional)
+if folder_size > 1024**3:
+  folder_size = folder_size / (1024**3)
+  unit = "GB"
+elif folder_size > 1024**2:
+  folder_size = folder_size / (1024**2)
+  unit = "MB"
+elif folder_size > 1024:
+  folder_size = folder_size / 1024
+  unit = "KB"
+else:
+  unit = "bytes"
+
+print(f"Total size of folder '{folder_path}': {folder_size:.2f} {unit}")
+
+
+
 st.write("check tmp contents")
 st.write(os.listdir("/tmp"))
