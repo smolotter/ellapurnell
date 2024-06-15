@@ -43,20 +43,20 @@ def delete_old_files():
             else:
                 st.write(f"Did not delete {file_path} as younger than expiry mins")
 
-        for directory in dirs:
-            # Get full path of the directory
-            dir_path = os.path.join(root, directory)
-            # Check directory modification time (similar to files)
-            dir_last_modified = os.path.getmtime(dir_path)
-            # Check if directory is older than expiry
-            if current_time - dir_last_modified > expiry_minutes:
-                # Use shutil.rmtree to delete directory and contents
-                try:
-                    shutil.rmtree(dir_path)
-                    st.write(f"Deleted directory: {dir_path}")
-                except:
-                    sti.write(f"Could not delete directory: {dir_path}")
-            st.write(f"Did not delete {dir_path} as younger than expiry mins")
+        # for directory in dirs:
+        #     # Get full path of the directory
+        #     dir_path = os.path.join(root, directory)
+        #     # Check directory modification time (similar to files)
+        #     dir_last_modified = os.path.getmtime(dir_path)
+        #     # Check if directory is older than expiry
+        #     if current_time - dir_last_modified > expiry_minutes:
+        #         # Use shutil.rmtree to delete directory and contents
+        #         try:
+        #             shutil.rmtree(dir_path)
+        #             st.write(f"Deleted directory: {dir_path}")
+        #         except:
+        #             sti.write(f"Could not delete directory: {dir_path}")
+        #     st.write(f"Did not delete {dir_path} as younger than expiry mins")
 
     st.write("Finished cleaning directory.")
 
