@@ -8,27 +8,25 @@ from collections import OrderedDict
 from PyPDF2 import PdfWriter
 import time
 import uuid
-
+import shutil
 
 
 st.title("ZIP to PDF Converter")
 
-st.write ("init")
-
 def delete_old_files():
     # Get current time in seconds
     current_time = time.time()
-    # Convert 1 minutes to seconds
+    # Convert x minutes to seconds
     expiry_minutes = 1 * 60
 
-    for root, _, files in os.walk("/tmp"):
+    for root, dirs, files in os.walk("/tmp"):
         for filename in files:
             # Get the full path of the file
             file_path = os.path.join(root, filename)
             # Get the last modification time of the file
             last_modified = os.path.getmtime(file_path)
-                
-            # Check if the file is older than 5 minutes
+
+            # Check if the file is older than x minutes
             if current_time - last_modified > expiry_minutes:
                 # Delete the file
                 try:
@@ -36,7 +34,22 @@ def delete_old_files():
                     st.write(f"Deleted: {file_path}")
                 except:
                     st.write(f"Could not delete {file_path}")
-    st.write("Finished cleaning directory.")
+
+        for directory in dirs:
+            # Get full path of the directory
+            dir_path = os.path.join(root, directory)
+            # Check directory modification time (similar to files)
+            dir_last_modified = os.path.getmtime(dir_path)
+            # Check if directory is older than expiry
+            if current_time - dir_last_modified > expiry_minutes:
+                # Use shutil.rmtree to delete directory and contents
+                try:
+                    shutil.rmtree(dir_path)
+                    st.write(f"Deleted directory: {dir_path}")
+                except:
+                    sti.write(f"Could not delete directory: {dir_path}")
+
+    print("Finished cleaning directory.")
 
 delete_old_files()
 
