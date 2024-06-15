@@ -8,7 +8,7 @@ from collections import OrderedDict
 from PyPDF2 import PdfWriter
 import time
 import uuid
-import shutil
+
 
 
 st.title("ZIP to PDF Converter")
@@ -123,5 +123,5 @@ st.download_button(label="combined_SMC.pdf", data=open(combined_SMC, 'rb').read(
 
 
 
-st.write ("check tmp contents")
+st.write("check tmp contents")
 st.write(os.listdir("/tmp"))
