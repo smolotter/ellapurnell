@@ -46,6 +46,7 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 
     return output_file_path
 
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
 
