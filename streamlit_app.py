@@ -236,7 +236,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     
     # For debugging
-    st.header(f"Contents of '{temp_dir}':")
+    st.header(f"Debug: contents of '{temp_dir}':")
     st.json(os.listdir(temp_dir))
     
     
