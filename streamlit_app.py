@@ -89,12 +89,6 @@ def add_header_footer(input_path, output_path, pdt_classification):
         canvas.setFillColor((255, 255, 255))  # Set white fill color
         canvas.drawRect(1.9 * cm, 1.9 * cm, 18 * cm, 21.5 * cm)  # Draw background rectangle
 
-    # Register Arial font (assuming the font file is available)
-    addFontDirectory('path/to/fonts')  # Replace with actual font directory path
-    arial_font = TTFont('Arial', 'arial.ttf')  # Replace with actual font file name
-
-    styles = getSampleStyleSheet()
-
     # Read existing content
     existing_content = []
     with open(input_path, 'rb') as pdf_in:
