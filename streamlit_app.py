@@ -9,6 +9,7 @@ from PyPDF2 import PdfWriter
 import time
 
 st.title("ZIP to PDF Converter")
+st.write("version 305")
 
 def unzip_file(stfileuploader, component, temp_dir):
     ''' Unzips a file (stfileuploader, from st.file_uploader), to a destination (temp_dir/component) '''
