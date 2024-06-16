@@ -22,7 +22,7 @@ def unzip_file(stfileuploader, component, temp_dir):
 
     return destination
 
-def html_to_pdf(html_file_path, pdf_file_path):
+def html_to_pdf(html_path, pdf_path):
     """Converts an HTML file to PDF using Chromium."""
     command = [
                 "chromium",
@@ -30,42 +30,34 @@ def html_to_pdf(html_file_path, pdf_file_path):
                 "--no-sandbox",
                 "--disable-gpu",
                 "--no-pdf-header-footer",
-                "--print-to-pdf=" + pdf_file_path,
-                html_file_path,
+                "--print-to-pdf=" + pdf_path,
+                html_path,
                 ]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     process.communicate()
 
-    return pdf_file_path
+    return pdf_path
 
-def combine_pdfs(list_of_individual_files, output_file_path):
+def combine_pdfs(list_of_individual_files, output_path):
     """Combines a list of PDFs into a single PDF."""
     merger = PdfWriter()
 
     for pdf in list_of_individual_files:
         merger.append(pdf)
 
-    merger.write(output_file_path)
+    merger.write(output_path)
     merger.close()
 
-    return output_file_path
+    return output_path
 
 
-
-# Function to convert points to centimeters
-def points_to_cm(points):
-    return points * 2.54 / 72
-
-def cm_in_points(cm):
-    return cm * 72 / 2.54
-
-def add_page_numbers_and_classification(input_pdf_path, output_pdf_path):
+def add_header_footer(input_path, output_path):
     
     # Create a writer instance
     writer = PdfWriter()
     
     # Read the input PDF
-    reader = PdfReader(input_pdf_path)
+    reader = PdfReader(input_path)
     width = reader.pages[0].mediabox.width # Width in pts of the input
     height = reader.pages[0].mediabox.height # Height in pts of the input
     num_pages = len(reader.pages) # Number of pages of the input
@@ -82,23 +74,23 @@ def add_page_numbers_and_classification(input_pdf_path, output_pdf_path):
         # Draw docid and page number in header
         c.setFont("Helvetica", 12)
         
-        c.drawString(cm_in_points(2.54), 
-                     height - cm_in_points(1.5),
+        c.drawString(cm(2.54), 
+                     height - cm(1.5),
                      "doc_id_placeholder") # Docid
 
-        c.drawRightString(width - cm_in_points(2.54),
-                          height - cm_in_points(1.5), 
+        c.drawRightString(width - cm(2.54),
+                          height - cm(1.5), 
                           str(i + 1)) # Page number
 
         # Draw classification in middle of header/footer
         c.setFont("Helvetica", 16)
 
         c.drawCentredString(width / 2, 
-                            height - cm_in_points(1),
+                            height - cm(1),
                             "classification") # Header
 
         c.drawCentredString(width / 2, 
-                            cm_in_points(1),
+                            cm(1),
                             "classification") # Footer
     
     c.save()
@@ -118,14 +110,13 @@ def add_page_numbers_and_classification(input_pdf_path, output_pdf_path):
         writer.add_page(original_page)
     
     # Write the final PDF to the output path
-    with open(output_pdf_path, "wb") as output_pdf_file:
-        writer.write(output_pdf_file)
+    with open(output_path, "wb") as output_path:
+        writer.write(output_path)
 
-    return output_pdf_file
+    return output_path
 
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
-
 
     # Accept 4 zip files
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
@@ -144,13 +135,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
         unzipped_1 = unzip_file(stfileuploader = zip_1, component = "1", temp_dir = temp_dir)
         
-        A4_1 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_1.pdf")
+        A4_1 = html_to_pdf(html_path = os.path.join(unzipped_1, "index.html"),
+                    pdf_path = os.path.join(temp_dir, "A4_1.pdf")
                     )
         list_A4.append(A4_1)
         
-        SMC_1 = html_to_pdf(html_file_path = os.path.join(unzipped_1, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_1.pdf")
+        SMC_1 = html_to_pdf(html_path = os.path.join(unzipped_1, "SMC_index.html"),
+                    pdf_path = os.path.join(temp_dir, "SMC_1.pdf")
                     )
         list_SMC.append(SMC_1)
 
@@ -158,13 +149,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
         unzipped_2 = unzip_file(stfileuploader = zip_2, component = "2", temp_dir = temp_dir)
         
-        A4_2 = html_to_pdf(html_file_path = os.path.join(unzipped_2, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_2.pdf")
+        A4_2 = html_to_pdf(html_path = os.path.join(unzipped_2, "index.html"),
+                    pdf_path = os.path.join(temp_dir, "A4_2.pdf")
                     )
         list_A4.append(A4_2)
         
-        SMC_2 = html_to_pdf(html_file_path = os.path.join(unzipped_2, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_2.pdf")
+        SMC_2 = html_to_pdf(html_path = os.path.join(unzipped_2, "SMC_index.html"),
+                    pdf_path = os.path.join(temp_dir, "SMC_2.pdf")
                     )
         list_SMC.append(SMC_2)
 
@@ -172,13 +163,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
         
         unzipped_3 = unzip_file(stfileuploader = zip_3, component = "3", temp_dir = temp_dir)
         
-        A4_3 = html_to_pdf(html_file_path = os.path.join(unzipped_3, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_3.pdf")
+        A4_3 = html_to_pdf(html_path = os.path.join(unzipped_3, "index.html"),
+                    pdf_path = os.path.join(temp_dir, "A4_3.pdf")
                     )
         list_A4.append(A4_3)
 
-        SMC_3 = html_to_pdf(html_file_path = os.path.join(unzipped_3, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_3.pdf")
+        SMC_3 = html_to_pdf(html_path = os.path.join(unzipped_3, "SMC_index.html"),
+                    pdf_path = os.path.join(temp_dir, "SMC_3.pdf")
                     )
         list_SMC.append(SMC_3)
 
@@ -186,13 +177,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
         
         unzipped_4 = unzip_file(stfileuploader = zip_4, component = "4", temp_dir = temp_dir)
 
-        A4_4 = html_to_pdf(html_file_path = os.path.join(unzipped_4, "index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "A4_4.pdf")
+        A4_4 = html_to_pdf(html_path = os.path.join(unzipped_4, "index.html"),
+                    pdf_path = os.path.join(temp_dir, "A4_4.pdf")
                     )
         list_A4.append(A4_4)
 
-        SMC_4 = html_to_pdf(html_file_path = os.path.join(unzipped_4, "SMC_index.html"),
-                    pdf_file_path = os.path.join(temp_dir, "SMC_4.pdf")
+        SMC_4 = html_to_pdf(html_path = os.path.join(unzipped_4, "SMC_index.html"),
+                    pdf_path = os.path.join(temp_dir, "SMC_4.pdf")
                     )
         list_SMC.append(SMC_4)
 
@@ -202,21 +193,21 @@ with tempfile.TemporaryDirectory() as temp_dir:
         # Combine the PDFs
 
         A4_C = combine_pdfs(list_of_individual_files = list_A4,
-                            output_file_path = os.path.join(temp_dir, "A4_C.pdf")
+                            output_path = os.path.join(temp_dir, "A4_C.pdf")
                             )
         
         SMC_C = combine_pdfs(list_of_individual_files = list_SMC,
-                            output_file_path = os.path.join(temp_dir, "SMC_C.pdf")
+                            output_path = os.path.join(temp_dir, "SMC_C.pdf")
                             )
 
 
         # Add header and footer
 
-        A4_O = add_page_numbers_and_classification(input_pdf_path = A4_C,
-                                                output_pdf_path = os.path.join(temp_dir, "A4_O.pdf"))
+        A4_O = add_header_footer(input_path = A4_C,
+                                                output_path = os.path.join(temp_dir, "A4_O.pdf"))
 
-        SMC_O = add_page_numbers_and_classification(input_pdf_path = SMC_C,
-                                                output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf"))
+        SMC_O = add_header_footer(input_path = SMC_C,
+                                                output_path = os.path.join(temp_dir, "SMC_O.pdf"))
         
 
         # For debugging
