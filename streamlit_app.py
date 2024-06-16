@@ -211,10 +211,10 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # Add header and footer
 
     A4_O = add_page_numbers_and_classification(input_pdf_path = A4_C,
-                                               output_pdf_path = os.path.join(temp_dir, "A4_O.pdf")
+                                               output_pdf_path = os.path.join(temp_dir, "A4_O.pdf"))
 
     SMC_O = add_page_numbers_and_classification(input_pdf_path = SMC_C,
-                                               output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf")
+                                               output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf"))
     
 
     # For debugging
