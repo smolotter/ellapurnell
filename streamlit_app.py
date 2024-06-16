@@ -47,8 +47,81 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 
     return output_file_path
 
+import os
+from PyPDF2 import PdfReader, PdfWriter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
 
+# Function to convert points to centimeters
+def points_to_cm(points):
+    return points * 2.54 / 72
 
+def cm_in_points(cm):
+    return cm * 72 / 2.54
+
+def add_page_numbers_and_classification(input_pdf_path, output_pdf_path):
+    
+    # Create a writer instance
+    writer = PdfWriter()
+    
+    # Read the input PDF
+    reader = PdfReader(input_pdf_path)
+    width = reader.pages[0].mediabox.width # Width in pts of the input
+    height = reader.pages[0].mediabox.height # Height in pts of the input
+    num_pages = len(reader.pages) # Number of pages of the input
+    
+    # Create a temporary PDF to hold the additional texts
+    temp_pdf_path = "temp_headerfooter.pdf"
+    c = canvas.Canvas(temp_pdf_path, pagesize=(width, height))
+
+    # Every page is different because of the page number
+    for i in range(num_pages):
+        # Start a new page in the temporary PDF
+        c.showPage()
+
+        # Draw docid and page number in header
+        c.setFont("Helvetica", 12)
+        
+        c.drawString(cm_in_points(2.54), 
+                     height - cm_in_points(1.5),
+                     "doc_id_placeholder") # Docid
+
+        c.drawRightString(width - cm_in_points(2.54),
+                          height - cm_in_points(1.5), 
+                          str(i + 1)) # Page number
+
+        # Draw classification in middle of header/footer
+        c.setFont("Helvetica", 16)
+
+        c.drawCentredString(width / 2, 
+                            height - cm_in_points(1),
+                            "classification") # Header
+
+        c.drawCentredString(width / 2, 
+                            cm_in_points(1),
+                            "classification") # Footer
+    
+    c.save()
+    
+    # Read the temporary PDF with the additional texts
+    temp_reader = PdfReader(temp_pdf_path)
+    
+    # Merge the temporary PDF with the original PDF
+    for i in range(num_pages):
+        # Get the original page
+        original_page = reader.pages[i]
+        # Get the additional texts overlay
+        additional_texts_overlay = temp_reader.pages[i]
+        # Merge the two pages
+        original_page.merge_page(additional_texts_overlay)
+        # Add the merged page to the writer
+        writer.add_page(original_page)
+    
+    # Write the final PDF to the output path
+    with open(output_pdf_path, "wb") as output_pdf_file:
+        writer.write(output_pdf_file)
+
+    return output_pdf_file
 
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -63,6 +136,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # Create lists to hold individual pdfs
     list_A4 = []
     list_SMC = []
+
+    # TODO: add the coverpg
 
     # Iterate through the uploaded zip files
     if zip_1:
@@ -133,11 +208,14 @@ with tempfile.TemporaryDirectory() as temp_dir:
                         )
 
 
-    # TODO: Add header and footer
+    # Add header and footer
 
+    A4_O = add_page_numbers_and_classification(input_pdf_path = A4_C,
+                                               output_pdf_path = os.path.join(temp_dir, "A4_O.pdf")
 
-    # TODO: add the coverpg
-
+    SMC_O = add_page_numbers_and_classification(input_pdf_path = SMC_C,
+                                               output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf")
+    
 
     # For debugging
     filenames = ["A4_1.pdf", "SMC_1.pdf",
@@ -145,7 +223,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
                  "A4_3.pdf", "SMC_3.pdf",
                  "A4_4.pdf", "SMC_4.pdf",
                  "A4_C.pdf", "SMC_C.pdf",
-                 "A4_HF.pdf", "SMC_HF.pdf",
                  "A4_O.pdf", "SMC_O.pdf",
                  ]
     for filename in filenames:
