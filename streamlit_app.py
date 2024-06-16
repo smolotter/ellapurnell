@@ -50,7 +50,7 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 
 
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.platypus import PageTemplate, SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 
 def add_header_footer(path_to_input, pdt_classification, doc_id, path_to_output):
