@@ -236,8 +236,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     
     # For debugging
-    st.header(f"Contents of '{directory_path}':")
-    st.json(os.listdir(directory_path))
+    st.header(f"Contents of '{temp_dir}':")
+    st.json(os.listdir(temp_dir))
     
     
 # import uuid
