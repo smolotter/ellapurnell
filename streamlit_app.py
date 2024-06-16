@@ -221,11 +221,11 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
         # For debugging
         filenames = ["A4_1.pdf", "SMC_1.pdf",
-                    "A4_2.pdf", "SMC_2.pdf",
-                    "A4_3.pdf", "SMC_3.pdf",
-                    "A4_4.pdf", "SMC_4.pdf",
-                    "A4_C.pdf", "SMC_C.pdf",
-                    "A4_O.pdf", "SMC_O.pdf",
+                     "A4_2.pdf", "SMC_2.pdf",
+                     "A4_3.pdf", "SMC_3.pdf",
+                     "A4_4.pdf", "SMC_4.pdf",
+                     "A4_C.pdf", "SMC_C.pdf",
+                     "A4_O.pdf", "SMC_O.pdf",
                     ]
         st.header(f"For debugging:")
         for filename in filenames:
@@ -238,7 +238,18 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # For debugging
     st.header(f"Debug: contents of '{temp_dir}':")
     st.json(os.listdir(temp_dir))
+
+
+
+    # For debugging
+    directory_path = st.text_input("Enter the directory path:")
+    if directory_path:
+        st.header(f"Debug: contents of '{check_dir}':")
+        st.json(os.listdir(check_dir))
     
+    st.title("Directory Viewer")
+    
+
     
 # import uuid
 # # Create a UUID
