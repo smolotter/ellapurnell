@@ -93,7 +93,7 @@ def add_header_footer(input_path, output_path, pdt_classification):
     existing_content = []
     with open(input_path, 'rb') as pdf_in:
         # Use platypus read to handle existing content
-        existing_content = read(pdf_in)
+        existing_content = load(pdf_in)
 
     # Define a template with background and overlaying header/footer
     template = PageTemplate(
