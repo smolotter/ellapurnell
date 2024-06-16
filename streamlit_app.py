@@ -197,39 +197,41 @@ with tempfile.TemporaryDirectory() as temp_dir:
         list_SMC.append(SMC_4)
 
 
-    # Combine the PDFs
+    if zip_2: #and other conditions such as the families
 
-    A4_C = combine_pdfs(list_of_individual_files = list_A4,
-                        output_file_path = os.path.join(temp_dir, "A4_C.pdf")
-                        )
-    
-    SMC_C = combine_pdfs(list_of_individual_files = list_SMC,
-                        output_file_path = os.path.join(temp_dir, "SMC_C.pdf")
-                        )
+        # Combine the PDFs
+
+        A4_C = combine_pdfs(list_of_individual_files = list_A4,
+                            output_file_path = os.path.join(temp_dir, "A4_C.pdf")
+                            )
+        
+        SMC_C = combine_pdfs(list_of_individual_files = list_SMC,
+                            output_file_path = os.path.join(temp_dir, "SMC_C.pdf")
+                            )
 
 
-    # Add header and footer
+        # Add header and footer
 
-    A4_O = add_page_numbers_and_classification(input_pdf_path = A4_C,
-                                               output_pdf_path = os.path.join(temp_dir, "A4_O.pdf"))
+        A4_O = add_page_numbers_and_classification(input_pdf_path = A4_C,
+                                                output_pdf_path = os.path.join(temp_dir, "A4_O.pdf"))
 
-    SMC_O = add_page_numbers_and_classification(input_pdf_path = SMC_C,
-                                               output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf"))
-    
+        SMC_O = add_page_numbers_and_classification(input_pdf_path = SMC_C,
+                                                output_pdf_path = os.path.join(temp_dir, "SMC_O.pdf"))
+        
 
-    # For debugging
-    filenames = ["A4_1.pdf", "SMC_1.pdf",
-                 "A4_2.pdf", "SMC_2.pdf",
-                 "A4_3.pdf", "SMC_3.pdf",
-                 "A4_4.pdf", "SMC_4.pdf",
-                 "A4_C.pdf", "SMC_C.pdf",
-                 "A4_O.pdf", "SMC_O.pdf",
-                 ]
-    for filename in filenames:
-        try:
-            st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
-        except:
-            st.write(f"{filename} not exist")
+        # For debugging
+        filenames = ["A4_1.pdf", "SMC_1.pdf",
+                    "A4_2.pdf", "SMC_2.pdf",
+                    "A4_3.pdf", "SMC_3.pdf",
+                    "A4_4.pdf", "SMC_4.pdf",
+                    "A4_C.pdf", "SMC_C.pdf",
+                    "A4_O.pdf", "SMC_O.pdf",
+                    ]
+        for filename in filenames:
+            try:
+                st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
+            except:
+                st.write(f"{filename} not exist")
 
 
 
