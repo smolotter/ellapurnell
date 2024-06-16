@@ -52,7 +52,6 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 from reportlab.pdfgen import canvas
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.lib.fonts import addFontDirectory, TTFont
 from reportlab.lib.units import cm
 
 
