@@ -9,7 +9,7 @@ from PyPDF2 import PdfWriter
 import time
 
 st.title("ZIP to PDF Converter")
-st.write("version 305")
+st.write("version 955")
 
 def unzip_file(stfileuploader, component, temp_dir):
     ''' Unzips a file (stfileuploader, from st.file_uploader), to a destination (temp_dir/component) '''
@@ -227,14 +227,18 @@ with tempfile.TemporaryDirectory() as temp_dir:
                     "A4_C.pdf", "SMC_C.pdf",
                     "A4_O.pdf", "SMC_O.pdf",
                     ]
+        st.header(f"For debugging:")
         for filename in filenames:
             try:
                 st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
             except:
                 st.write(f"{filename} not exist")
 
-
-
+    
+    # For debugging
+    st.header(f"Contents of '{directory_path}':")
+    st.json(os.listdir(directory_path))
+    
     
 # import uuid
 # # Create a UUID
