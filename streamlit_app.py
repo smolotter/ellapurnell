@@ -193,15 +193,15 @@ with tempfile.TemporaryDirectory() as temp_dir:
     pdt_classification = "TOP SECRET & CILANTRO"
     doc_id = "DOCID/PLACEHOLDER"
 
-    A4_HF = add_header_footer(path_to_input=A4_C,
+    A4_HF = add_header_footer(path_to_input = A4_C,
                               pdt_classification = pdt_classification,
                               doc_id = doc_id,
-                              path_to_output = os.path.join(temp_dir, "A4_HF.pdf")
-                              
-    SMC_HF = add_header_footer(path_to_input=A4_C,
+                              path_to_output = os.path.join(temp_dir, "A4_HF.pdf"))
+
+    SMC_HF = add_header_footer(path_to_input = A4_C,
                               pdt_classification = pdt_classification,
                               doc_id = doc_id,
-                              path_to_output = os.path.join(temp_dir, "SMC_HF.pdf")
+                              path_to_output = os.path.join(temp_dir, "SMC_HF.pdf"))
 
 
 
