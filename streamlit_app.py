@@ -55,12 +55,12 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
 
 
-def add_header_footer(input_path, output_path, pdf_classification):
+def add_header_footer(input_path, output_path, pdt_classification):
     """
     Adds a header and footer to a multi-page PDF file
     
     Args:
-        pdf_classification (str): String to display in the header.
+        pdt_classification (str): String to display in the header.
         input_path (str): Path to the existing PDF file.
         output_path (str): Path to save the modified PDF file.
     """
@@ -69,7 +69,7 @@ def add_header_footer(input_path, output_path, pdf_classification):
         Function to draw the footer on each page.
         """
         page_num = canvas.getPageNumber()
-        footer_text = "Page %d" % page_num
+        footer_text = pdt_classification
         canvas.setFont("Helvetica", 15)
         canvas.drawCentredString(9 * cm, 19 * cm, header_text)
 
@@ -77,7 +77,7 @@ def add_header_footer(input_path, output_path, pdf_classification):
         """
         Function to draw the header on each page.
         """
-        header_text = "Classification: %s" % pdf_classification
+        header_text = pdt_classification
         canvas.setFont("Helvetica", 15)
         canvas.drawCentredString(9 * cm, 19 * cm, header_text)
 
@@ -211,7 +211,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     A4_HF = add_header_footer(input_path = A4_C,
                               output_path = os.path.join(temp_dir, "A4_HF.pdf"),
-                              pdf_classification = pdf_classification)
+                              pdt_classification = pdt_classification)
 
 
     # TODO: add the coverpg
