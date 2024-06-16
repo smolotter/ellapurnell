@@ -48,28 +48,72 @@ def combine_pdfs(list_of_individual_files, output_file_path):
     return output_file_path
 
 
+
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+
+def add_header_footer(path_to_input, pdt_classification, doc_id, path_to_output):
+    """
+    Adds a header and footer to a PDF file using ReportLab, handling multiple pages.
+
+    Args:
+        path_to_input: Path to the input PDF file.
+        pdt_classification: String representing the PDF classification.
+        doc_id: String representing the document ID.
+        path_to_output: Path to save the modified PDF file.
+
+    Returns:
+        str: Path to the output PDF file.
+    """
+    # Define styles for header and footer content
+    styles = getSampleStyleSheet()
+
+    def header(canvas, doc):
+        # Create header content
+        header_text = f"{doc_id} - {pdt_classification} - Page {doc.page + 1}"
+        content = Paragraph(header_text, styles['Normal'])
+        # Set header position (adjust as needed)
+        content.wrapOn(doc, A4[0], A4[1])  # Wrap content within page size
+        content.drawOn(canvas, 50, doc.height - 20)  # Draw header with margins
+
+    def footer(canvas, doc):
+        # Create footer content
+        footer_text = f"{pdt_classification}"
+        content = Paragraph(footer_text, styles['Normal'])
+        # Set footer position (adjust as needed)
+        content.wrapOn(doc, A4[0], A4[1])  # Wrap content within page size
+        content.drawOn(canvas, 50, 20)  # Draw footer with margins
+
+    # Build the document with header and footer functions
+    doc = SimpleDocTemplate(filename=path_to_output, pagesize=A4)
+    template = PageTemplate(id='all', frames=[Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='main')], onPage=header + footer)
+    doc.addPageTemplates([template])
+
+    # Reference content from original PDF (iterating through pages)
+    elements = []
+    with open(path_to_input, 'rb') as input_file:
+    for page_num in range(1, input_file.read().count(b"/Contents") + 1):  # Count page objects
+        elements.append(Spacer(1, A4[1] - doc.topMargin - doc.bottomMargin))  # Spacer for content
+        elements.append(input_file.seek(0, io.SEEK_SET))  # Reset file pointer for each page
+        elements.append(input_file.read(input_file.read().find(b"endstream") + len(b"endstream")))  # Read each page content
+
+    doc.build(elements)
+
+    return path_to_output
+
+
+
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
 
-    # # Create working files
-    # filenames = ["A4_1.pdf", "SMC_1.pdf",
-    #              "A4_2.pdf", "SMC_2.pdf",
-    #              "A4_3.pdf", "SMC_3.pdf",
-    #              "A4_4.pdf", "SMC_4.pdf",
-    #              "A4_C.pdf", "SMC_C.pdf",
-    #              "A4_O.pdf", "SMC_O.pdf",
-    #              ]
-    # for filename in filenames:
-    #     filepath = os.path.join(temp_dir, filename)
-    #     with open(filepath, 'wb') as f:  # Use 'wb' for binary data
-    #         pass  # Empty file creation
-   
+
     # Accept 4 zip files
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
     zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
     zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
-
 
     # Create lists to hold individual pdfs
     list_A4 = []
@@ -144,11 +188,41 @@ with tempfile.TemporaryDirectory() as temp_dir:
                         )
 
 
+    # Add header and footer
+    
+    pdt_classification = "TOP SECRET & CILANTRO"
+    doc_id = "DOCID/PLACEHOLDER"
+
+    A4_HF = add_header_footer(path_to_input=A4_C,
+                              pdt_classification = pdt_classification,
+                              doc_id = doc_id,
+                              path_to_output = os.path.join(temp_dir, "A4_HF.pdf")
+                              
+    SMC_HF = add_header_footer(path_to_input=A4_C,
+                              pdt_classification = pdt_classification,
+                              doc_id = doc_id,
+                              path_to_output = os.path.join(temp_dir, "A4_HF.pdf")
+
+
+
+
+    # TODO: add the coverpg
+
 
     # For debugging
-    st.write("Combined PDFs...")
-    st.download_button(label="combined_A4.pdf", data=open(A4_C, 'rb').read(), file_name="combined_A4.pdf")
-    st.download_button(label="combined_SMC.pdf", data=open(SMC_C, 'rb').read(), file_name="combined_SMC.pdf")
+    filenames = ["A4_1.pdf", "SMC_1.pdf",
+                 "A4_2.pdf", "SMC_2.pdf",
+                 "A4_3.pdf", "SMC_3.pdf",
+                 "A4_4.pdf", "SMC_4.pdf",
+                 "A4_C.pdf", "SMC_C.pdf",
+                 "A4_HF.pdf", "SMC_HF.pdf",
+                 "A4_O.pdf", "SMC_O.pdf",
+                 ]
+    for filename in filenames:
+        try:
+            st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
+        except:
+            st.write(f"{filename} not exist")
 
 
 
