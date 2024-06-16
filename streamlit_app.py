@@ -211,7 +211,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
 
     A4_HF = add_header_footer(input_path = A4_C,
-                              output_path = os.path.join(temp_dir, "A4_HF.pdf")
+                              output_path = os.path.join(temp_dir, "A4_HF.pdf"),
                               pdf_classification = pdf_classification)
 
 
