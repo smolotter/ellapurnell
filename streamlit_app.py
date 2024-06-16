@@ -93,10 +93,10 @@ def add_header_footer(path_to_input, pdt_classification, doc_id, path_to_output)
     # Reference content from original PDF (iterating through pages)
     elements = []
     with open(path_to_input, 'rb') as input_file:
-    for page_num in range(1, input_file.read().count(b"/Contents") + 1):  # Count page objects
-        elements.append(Spacer(1, A4[1] - doc.topMargin - doc.bottomMargin))  # Spacer for content
-        elements.append(input_file.seek(0, io.SEEK_SET))  # Reset file pointer for each page
-        elements.append(input_file.read(input_file.read().find(b"endstream") + len(b"endstream")))  # Read each page content
+        for page_num in range(1, input_file.read().count(b"/Contents") + 1):  # Count page objects
+            elements.append(Spacer(1, A4[1] - doc.topMargin - doc.bottomMargin))  # Spacer for content
+            elements.append(input_file.seek(0, io.SEEK_SET))  # Reset file pointer for each page
+            elements.append(input_file.read(input_file.read().find(b"endstream") + len(b"endstream")))  # Read each page content
 
     doc.build(elements)
 
