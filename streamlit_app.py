@@ -244,8 +244,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # For debugging
     directory_path = st.text_input("Enter the directory path:")
     if directory_path:
-        st.header(f"Debug: contents of '{check_dir}':")
-        st.json(os.listdir(check_dir))
+        st.header(f"Debug: contents of '{directory_path}':")
+        st.json(os.listdir(directory_path))
     
     st.title("Directory Viewer")
     
