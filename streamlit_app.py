@@ -1,12 +1,15 @@
-import streamlit as st
-import zipfile
-from io import BytesIO
-import subprocess
-import tempfile
 import os
-from collections import OrderedDict
-from PyPDF2 import PdfWriter
 import time
+import subprocess
+import zipfile
+import tempfile
+from io import BytesIO
+from collections import OrderedDict
+
+import streamlit as st
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
+from PyPDF2 import PdfReader, PdfWriter
 
 st.title("ZIP to PDF Converter")
 st.write("version 955")
@@ -47,10 +50,7 @@ def combine_pdfs(list_of_individual_files, output_file_path):
 
     return output_file_path
 
-import os
-from PyPDF2 import PdfReader, PdfWriter
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import cm
+
 
 # Function to convert points to centimeters
 def points_to_cm(points):
@@ -235,20 +235,15 @@ with tempfile.TemporaryDirectory() as temp_dir:
                 st.write(f"{filename} not exist")
 
     
-    # For debugging
-    st.header(f"Debug: contents of '{temp_dir}':")
-    st.json(os.listdir(temp_dir))
+    # # For debugging (to confirm everything is happening in tempdir)
+    # st.header(f"Debug: contents of '{temp_dir}':")
+    # st.json(os.listdir(temp_dir))
 
+    # directory_path = st.text_input("Enter the directory path:")
+    # if directory_path:
+    #     st.header(f"Debug: contents of '{directory_path}':")
+    #     st.json(os.listdir(directory_path))
 
-
-    # For debugging
-    directory_path = st.text_input("Enter the directory path:")
-    if directory_path:
-        st.header(f"Debug: contents of '{directory_path}':")
-        st.json(os.listdir(directory_path))
-    
-    st.title("Directory Viewer")
-    
 
     
 # import uuid
