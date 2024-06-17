@@ -166,7 +166,7 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
 
     # Create a container for the results (because of the way streamlit reruns the script)
     st.title("ZIP to PDF Converter")
-    results_container = st.container
+    results_container = st.container()
     results_container.empty()
 
     # Accept 4 zip files
