@@ -116,6 +116,9 @@ def add_header_footer(input_path, output_path):
 
     return output_path
 
+st.write(f"current folder {os.getcwd()}")
+st.json(os.listdir(os.getcwd()))
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
     # Change the current working directory to temp_dir
