@@ -16,8 +16,7 @@ st.title("ZIP to PDF Converter")
 st.write("version 955")
 
 
-def unzip_file(stfileuploader):
-    destination = stfileuploader.name + "_" + str(uuid.uuid4()) # Use a UUID as the temp folder name
+def unzip_file(stfileuploader, destination):
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
         zip_ref.extractall(destination)
     return destination
@@ -135,46 +134,20 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # TODO: add the coverpg
 
     # Iterate through the uploaded zip files
-    if zip_1:
+    zip_files = [zip_1, zip_2, zip_3, zip_4]
 
-        unzipped_1 = unzip_file(stfileuploader = zip_1)
+    for i, zip_file in enumerate(zip_files, 1):
+        if zip_file:
+            unzipped = unzip_file(stfileuploader=zip_file, destination=f"unzipped_{i}")
+            
+            A4_pdf = html_to_pdf(html_path=os.path.join(unzipped, "index.html"), pdf_path=f"A4_{i}.pdf")
+            list_A4.append(A4_pdf)
+            
+            SMC_pdf = html_to_pdf(html_path=os.path.join(unzipped, "SMC_index.html"), pdf_path=f"SMC_{i}.pdf")
+            list_SMC.append(SMC_pdf)
 
-        A4_1 = html_to_pdf(html_path = os.path.join(unzipped_1, "index.html"), pdf_path = "A4_1.pdf")
-        list_A4.append(A4_1)
-        
-        SMC_1 = html_to_pdf(html_path = os.path.join(unzipped_1, "SMC_index.html"), pdf_path = "SMC_1.pdf")
-        list_SMC.append(SMC_1)
-
-    if zip_2:
-
-        unzipped_2 = unzip_file(stfileuploader = zip_2)
-        
-        A4_2 = html_to_pdf(html_path = os.path.join(unzipped_2, "index.html"), pdf_path = "A4_2.pdf")
-        list_A4.append(A4_2)
-        
-        SMC_2 = html_to_pdf(html_path = os.path.join(unzipped_2, "SMC_index.html"), pdf_path = "SMC_2.pdf")
-        list_SMC.append(SMC_2)
-
-    if zip_3:
-        
-        unzipped_3 = unzip_file(stfileuploader = zip_3)
-        
-        A4_3 = html_to_pdf(html_path = os.path.join(unzipped_3, "index.html"), pdf_path = "A4_3.pdf")
-        list_A4.append(A4_3)
-
-        SMC_3 = html_to_pdf(html_path = os.path.join(unzipped_3, "SMC_index.html"), pdf_path = "SMC_3.pdf")
-        list_SMC.append(SMC_3)
-
-    if zip_4:
-        
-        unzipped_4 = unzip_file(stfileuploader = zip_4)
-
-        A4_4 = html_to_pdf(html_path = os.path.join(unzipped_4, "index.html"), pdf_path = "A4_4.pdf")
-        list_A4.append(A4_4)
-
-        SMC_4 = html_to_pdf(html_path = os.path.join(unzipped_4, "SMC_index.html"), pdf_path = "SMC_4.pdf")
-        list_SMC.append(SMC_4)
-
+    st.json(list_A4)
+    st.json(list_A4)
 
     if zip_2: #and other conditions such as the families
 
