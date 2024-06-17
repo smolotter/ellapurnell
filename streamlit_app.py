@@ -116,8 +116,7 @@ def add_header_footer(input_path, output_path):
 
     return output_path
 
-st.write(f"current folder {os.getcwd()}")
-st.json(os.listdir(os.getcwd()))
+
 
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -236,6 +235,11 @@ with tempfile.TemporaryDirectory() as temp_dir:
     os.chdir('/')
     st.header(f"Debug: contents of '{temp_dir}':")
     st.json(os.listdir(temp_dir))
+
+    # For debugging (to confirm everything is happening in tempdir)
+    os.chdir('/')
+    st.header(f"Debug: contents of '/':")
+    st.json('/')
 
     directory_path = st.text_input("Enter the directory path:")
     if directory_path:
