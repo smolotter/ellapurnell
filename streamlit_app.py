@@ -14,9 +14,9 @@ from PyPDF2 import PdfReader, PdfWriter
 st.title("ZIP to PDF Converter")
 st.write("version 955")
 
-def unzip_file(stfileuploader, component, temp_dir):
+def unzip_file(stfileuploader):
     ''' Unzips a file (stfileuploader, from st.file_uploader), to a destination (temp_dir/component) '''
-    destination = os.path.join(temp_dir, component)
+    destination = stfileuploader.name + "_" + str(uuid.uuid4()) # Use a UUID as the temp folder name
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
         zip_ref.extractall(destination)
 
@@ -117,7 +117,9 @@ def add_header_footer(input_path, output_path):
 
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
-
+    # Change the current working directory to temp_dir
+    os.chdir(temp_dir)
+    
     # Accept 4 zip files
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
@@ -133,7 +135,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # Iterate through the uploaded zip files
     if zip_1:
 
-        unzipped_1 = unzip_file(stfileuploader = zip_1, component = "1", temp_dir = temp_dir)
+        unzipped_1 = unzip_file(stfileuploader = zip_1)
         
         A4_1 = html_to_pdf(html_path = os.path.join(unzipped_1, "index.html"),
                     pdf_path = os.path.join(temp_dir, "A4_1.pdf")
@@ -147,7 +149,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     if zip_2:
 
-        unzipped_2 = unzip_file(stfileuploader = zip_2, component = "2", temp_dir = temp_dir)
+        unzipped_2 = unzip_file(stfileuploader = zip_2)
         
         A4_2 = html_to_pdf(html_path = os.path.join(unzipped_2, "index.html"),
                     pdf_path = os.path.join(temp_dir, "A4_2.pdf")
@@ -161,7 +163,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     if zip_3:
         
-        unzipped_3 = unzip_file(stfileuploader = zip_3, component = "3", temp_dir = temp_dir)
+        unzipped_3 = unzip_file(stfileuploader = zip_3)
         
         A4_3 = html_to_pdf(html_path = os.path.join(unzipped_3, "index.html"),
                     pdf_path = os.path.join(temp_dir, "A4_3.pdf")
@@ -175,7 +177,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     if zip_4:
         
-        unzipped_4 = unzip_file(stfileuploader = zip_4, component = "4", temp_dir = temp_dir)
+        unzipped_4 = unzip_file(stfileuploader = zip_4)
 
         A4_4 = html_to_pdf(html_path = os.path.join(unzipped_4, "index.html"),
                     pdf_path = os.path.join(temp_dir, "A4_4.pdf")
