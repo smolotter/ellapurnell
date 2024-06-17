@@ -229,14 +229,14 @@ with tempfile.TemporaryDirectory() as temp_dir:
                 st.write(f"{filename} not exist")
 
     
-    # # For debugging (to confirm everything is happening in tempdir)
-    # st.header(f"Debug: contents of '{temp_dir}':")
-    # st.json(os.listdir(temp_dir))
+        # For debugging (to confirm everything is happening in tempdir)
+        st.header(f"Debug: contents of '{temp_dir}':")
+        st.json(os.listdir(temp_dir))
 
-    # directory_path = st.text_input("Enter the directory path:")
-    # if directory_path:
-    #     st.header(f"Debug: contents of '{directory_path}':")
-    #     st.json(os.listdir(directory_path))
+        directory_path = st.text_input("Enter the directory path:")
+        if directory_path:
+            st.header(f"Debug: contents of '{directory_path}':")
+            st.json(os.listdir(directory_path))
 
 
     
