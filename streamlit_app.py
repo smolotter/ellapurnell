@@ -159,7 +159,7 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
 
 
 # Create a temp_dir to work in
-with tempfile.TemporaryDirectory() as temp_dir:
+with tempfile.TemporaryDirectory() as temp_dir and st.spinner('Processing...'):
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
