@@ -156,118 +156,110 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
 
 
 
+# Create a temp_dir to work in
+with tempfile.TemporaryDirectory() as temp_dir:
 
-def main():
-    with st.spinner('Processing...'):
+    # Change the current working directory to temp_dir
+    os.chdir(temp_dir)
+    
+    # Accept 4 zip files
+    st.title("ZIP to PDF Converter")
 
-        # Create a temp_dir to work in
-        with tempfile.TemporaryDirectory() as temp_dir:
+    zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
+    zip_2 = st.file_uploader("Upload Main Product", type="zip")
+    zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
+    zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
 
-            # Change the current working directory to temp_dir
-            os.chdir(temp_dir)
+    # Create lists to hold individual pdfs
+    list_A4 = []
+    list_SMC = []
+
+    # TODO: add the coverpg
+
+    # Iterate through the uploaded zip files
+    zip_files = [zip_1, zip_2, zip_3, zip_4]
+    for i, zip_file in enumerate(zip_files, 1):
+        if zip_file:
+            unzipped = unzip_file(stfileuploader=zip_file, destination=f"unzipped_{i}")
             
-            # Accept 4 zip files
-            st.title("ZIP to PDF Converter")
+            A4_pdf = html_to_pdf(html_path=os.path.join(unzipped, "index.html"), pdf_path=f"A4_{i}.pdf")
+            list_A4.append(A4_pdf)
+            
+            SMC_pdf = html_to_pdf(html_path=os.path.join(unzipped, "SMC_index.html"), pdf_path=f"SMC_{i}.pdf")
+            list_SMC.append(SMC_pdf)
 
-            zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
-            zip_2 = st.file_uploader("Upload Main Product", type="zip")
-            zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
-            zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
+    # Combine the PDFs and add header/footer
+    if zip_2: #and other conditions such as the families
 
-            # Create lists to hold individual pdfs
-            list_A4 = []
-            list_SMC = []
+        # Combine the PDFs
+        A4_C = combine_pdfs(list_of_individual_files = list_A4, output_path = "A4_C.pdf")
+        SMC_C = combine_pdfs(list_of_individual_files = list_SMC, output_path = "SMC_C.pdf")
 
-            # TODO: add the coverpg
+        # Add header and footer
+        pdt_classification = "TOP SECRET & CILANTRO"
+        pdt_docid = "AB/123/2023"
 
-            # Iterate through the uploaded zip files
-            zip_files = [zip_1, zip_2, zip_3, zip_4]
-            for i, zip_file in enumerate(zip_files, 1):
-                if zip_file:
-                    unzipped = unzip_file(stfileuploader=zip_file, destination=f"unzipped_{i}")
-                    
-                    A4_pdf = html_to_pdf(html_path=os.path.join(unzipped, "index.html"), pdf_path=f"A4_{i}.pdf")
-                    list_A4.append(A4_pdf)
-                    
-                    SMC_pdf = html_to_pdf(html_path=os.path.join(unzipped, "SMC_index.html"), pdf_path=f"SMC_{i}.pdf")
-                    list_SMC.append(SMC_pdf)
+        A4_O = add_header_footer(input_path = A4_C, 
+                                output_path = "A4_O.pdf", 
+                                pdt_classification = pdt_classification, 
+                                pdt_docid = pdt_docid, 
+                                fontsz_classification = 15, 
+                                fontsz_others = 12, 
+                                margin_top = 1 * cm, 
+                                margin_right = 2.54 * cm, 
+                                margin_bottom = 1 * cm, 
+                                margin_left = 2.54 * cm,
+                                )
+        
+        SMC_O = add_header_footer(input_path = SMC_C,
+                                output_path = "SMC_O.pdf", 
+                                pdt_classification = pdt_classification, 
+                                pdt_docid = pdt_docid, 
+                                fontsz_classification = 14, 
+                                fontsz_others = 10, 
+                                margin_top = 0.5 * cm, 
+                                margin_right = 1 * cm, 
+                                margin_bottom = -1, # Place off page, since smc version doesnt have this
+                                margin_left = 1 * cm,
+                                )        
 
-            # Combine the PDFs and add header/footer
-            if zip_2: #and other conditions such as the families
-
-                # Combine the PDFs
-                A4_C = combine_pdfs(list_of_individual_files = list_A4, output_path = "A4_C.pdf")
-                SMC_C = combine_pdfs(list_of_individual_files = list_SMC, output_path = "SMC_C.pdf")
-
-                # Add header and footer
-                pdt_classification = "TOP SECRET & CILANTRO"
-                pdt_docid = "AB/123/2023"
-
-                A4_O = add_header_footer(input_path = A4_C, 
-                                        output_path = "A4_O.pdf", 
-                                        pdt_classification = pdt_classification, 
-                                        pdt_docid = pdt_docid, 
-                                        fontsz_classification = 15, 
-                                        fontsz_others = 12, 
-                                        margin_top = 1 * cm, 
-                                        margin_right = 2.54 * cm, 
-                                        margin_bottom = 1 * cm, 
-                                        margin_left = 2.54 * cm,
-                                        )
-                
-                SMC_O = add_header_footer(input_path = SMC_C,
-                                        output_path = "SMC_O.pdf", 
-                                        pdt_classification = pdt_classification, 
-                                        pdt_docid = pdt_docid, 
-                                        fontsz_classification = 14, 
-                                        fontsz_others = 10, 
-                                        margin_top = 0.5 * cm, 
-                                        margin_right = 1 * cm, 
-                                        margin_bottom = -1, # Place off page, since smc version doesnt have this
-                                        margin_left = 1 * cm,
-                                        )        
-
-                try:
-                    st.success("Conversion complete")
-                    
-                    st.header("Output files:")
-                    st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-                    st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-                except:
-                    st.error("Something went wrong, the output could not be presented.")
+        try:
+            st.success("Conversion complete")
+            
+            st.header("Output files:")
+            st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+        except:
+            st.error("Something went wrong, the output could not be presented.")
 
 
 
 
-            # For debugging
-            st.header(f"For debugging:")
-            filenames = ["A4_1.pdf", "SMC_1.pdf",
-                        "A4_2.pdf", "SMC_2.pdf",
-                        "A4_3.pdf", "SMC_3.pdf",
-                        "A4_4.pdf", "SMC_4.pdf",
-                        "A4_C.pdf", "SMC_C.pdf",
-                        "A4_O.pdf", "SMC_O.pdf",
-                        ]
-            for filename in filenames:
-                try:
-                    st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
-                except:
-                    st.write(f"{filename} not exist")
+    # For debugging
+    st.header(f"For debugging:")
+    filenames = ["A4_1.pdf", "SMC_1.pdf",
+                "A4_2.pdf", "SMC_2.pdf",
+                "A4_3.pdf", "SMC_3.pdf",
+                "A4_4.pdf", "SMC_4.pdf",
+                "A4_C.pdf", "SMC_C.pdf",
+                "A4_O.pdf", "SMC_O.pdf",
+                ]
+    for filename in filenames:
+        try:
+            st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
+        except:
+            st.write(f"{filename} not exist")
 
-            os.chdir('/')
-            st.header(f"Debug: contents of '{temp_dir}':")
-            st.json(os.listdir(temp_dir))
+    os.chdir('/')
+    st.header(f"Debug: contents of '{temp_dir}':")
+    st.json(os.listdir(temp_dir))
 
-            st.header(f"Debug: contents of '/':")
-            st.json(os.listdir('/'))
+    st.header(f"Debug: contents of '/':")
+    st.json(os.listdir('/'))
 
-            directory_path = st.text_input("Enter the directory path:")
-            if directory_path:
-                st.header(f"Debug: contents of '{directory_path}':")
-                st.json(os.listdir(directory_path))
-
-
-if __name__ == "__main__":
-    main()
+    directory_path = st.text_input("Enter the directory path:")
+    if directory_path:
+        st.header(f"Debug: contents of '{directory_path}':")
+        st.json(os.listdir(directory_path))
 
 
