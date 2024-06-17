@@ -1,19 +1,14 @@
 import os
-import time
 import subprocess
 import zipfile
 import tempfile
 from io import BytesIO
-from collections import OrderedDict
-import uuid
 
 import streamlit as st
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 from PyPDF2 import PdfReader, PdfWriter
 
-st.title("ZIP to PDF Converter")
-st.write("105")
 
 def unzip_file(stfileuploader, destination):
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
@@ -73,22 +68,22 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
         c.setFont("Helvetica", fontsz_classification)
 
         c.drawCentredString(width / 2, 
-                            height - margin_top * cm,
+                            height - margin_top,
                             pdt_classification)  # Header
 
         c.drawCentredString(width / 2, 
-                            margin_bottom * cm,
+                            margin_bottom,
                             pdt_classification)  # Footer
 
         # Draw docid and page number in header
         c.setFont("Helvetica", fontsz_others)
         
-        c.drawString(margin_left * cm, 
-                     height - margin_top * cm - fontsz_classification,
+        c.drawString(margin_left, 
+                     height - margin_top - fontsz_classification,
                      pdt_docid)  # Docid
 
-        c.drawRightString(width - margin_right * cm,
-                          height - margin_top * cm, 
+        c.drawRightString(width - margin_right,
+                          height - margin_top - fontsz_classification,
                           str(i + 1))  # Page number
 
     c.save()
@@ -121,6 +116,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
     os.chdir(temp_dir)
     
     # Accept 4 zip files
+    st.title("ZIP to PDF Converter")
+    st.write("105")
+
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
     zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
@@ -161,22 +159,22 @@ with tempfile.TemporaryDirectory() as temp_dir:
                                 pdt_docid = pdt_docid, 
                                 fontsz_classification = 15, 
                                 fontsz_others = 12, 
-                                margin_top = 1, 
-                                margin_right = 2.54, 
-                                margin_bottom = 1, 
-                                margin_left = 2.54,
+                                margin_top = 1 * cm, 
+                                margin_right = 2.54 * cm, 
+                                margin_bottom = 1 * cm, 
+                                margin_left = 2.54 * cm,
                                 )
         
         SMC_O = add_header_footer(input_path = SMC_C,
                                 output_path = "SMC_O.pdf", 
                                 pdt_classification = pdt_classification, 
                                 pdt_docid = pdt_docid, 
-                                fontsz_classification = 15, 
-                                fontsz_others = 12, 
-                                margin_top = 0.5, 
-                                margin_right = 1, 
-                                margin_bottom = -1, # Place off page 
-                                margin_left = 1,
+                                fontsz_classification = 14, 
+                                fontsz_others = 10, 
+                                margin_top = 0.5 * cm, 
+                                margin_right = 1 * cm, 
+                                margin_bottom = -1, # Place off page, since smc version doesnt have this
+                                margin_left = 1 * cm,
                                 )        
 
         # For debugging
