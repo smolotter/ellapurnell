@@ -159,7 +159,7 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
 
 def main():
     with st.spinner('Processing...'):
-        
+
         # Create a temp_dir to work in
         with tempfile.TemporaryDirectory() as temp_dir:
 
@@ -239,34 +239,35 @@ def main():
 
 
 
+        # For debugging
+        st.header(f"For debugging:")
+        filenames = ["A4_1.pdf", "SMC_1.pdf",
+                    "A4_2.pdf", "SMC_2.pdf",
+                    "A4_3.pdf", "SMC_3.pdf",
+                    "A4_4.pdf", "SMC_4.pdf",
+                    "A4_C.pdf", "SMC_C.pdf",
+                    "A4_O.pdf", "SMC_O.pdf",
+                    ]
+        for filename in filenames:
+            try:
+                st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
+            except:
+                st.write(f"{filename} not exist")
+
+        os.chdir('/')
+        st.header(f"Debug: contents of '{temp_dir}':")
+        st.json(os.listdir(temp_dir))
+
+        st.header(f"Debug: contents of '/':")
+        st.json(os.listdir('/'))
+
+        directory_path = st.text_input("Enter the directory path:")
+        if directory_path:
+            st.header(f"Debug: contents of '{directory_path}':")
+            st.json(os.listdir(directory_path))
+
 
 if __name__ == "__main__":
     main()
 
 
-    # For debugging
-    st.header(f"For debugging:")
-    filenames = ["A4_1.pdf", "SMC_1.pdf",
-                "A4_2.pdf", "SMC_2.pdf",
-                "A4_3.pdf", "SMC_3.pdf",
-                "A4_4.pdf", "SMC_4.pdf",
-                "A4_C.pdf", "SMC_C.pdf",
-                "A4_O.pdf", "SMC_O.pdf",
-                ]
-    for filename in filenames:
-        try:
-            st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
-        except:
-            st.write(f"{filename} not exist")
-
-    os.chdir('/')
-    st.header(f"Debug: contents of '{temp_dir}':")
-    st.json(os.listdir(temp_dir))
-
-    st.header(f"Debug: contents of '/':")
-    st.json(os.listdir('/'))
-
-    directory_path = st.text_input("Enter the directory path:")
-    if directory_path:
-        st.header(f"Debug: contents of '{directory_path}':")
-        st.json(os.listdir(directory_path))
