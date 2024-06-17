@@ -231,7 +231,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     
     # For debugging (to confirm everything is happening in tempdir)
     st.header(f"Debug: contents of '{temp_dir}':")
-    st.json(os.listdir(.))
+    st.json(os.listdir('.'))
 
     directory_path = st.text_input("Enter the directory path:")
     if directory_path:
