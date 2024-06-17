@@ -229,8 +229,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
             st.success("Conversion complete")
             
             st.header("Output files:")
-            st.download_button(label=filename, data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-            st.download_button(label=filename, data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
         except:
             st.error("Something went wrong, the output could not be presented.")
 
