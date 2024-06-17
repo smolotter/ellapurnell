@@ -178,7 +178,7 @@ list_SMC = []
     ### TODO: add the coverpg
 
 # Create a temp_dir to work in
-with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
+with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing (wait for this message to disappear before clicking download button.)...'):
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
@@ -231,7 +231,6 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
                                 )        
 
         try:
-            st.info("Wait for processing to be complete before downloading!")
             st.header("Output files:")
             st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
             st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
