@@ -58,9 +58,9 @@ def add_header_footer(input_path, output_path):
     
     # Read the input PDF
     reader = PdfReader(input_path)
-    width = reader.pages[0].mediabox.width # Width in pts of the input
-    height = reader.pages[0].mediabox.height # Height in pts of the input
-    num_pages = len(reader.pages) # Number of pages of the input
+    width = reader.pages[0].mediabox.width  # Width in pts of the input
+    height = reader.pages[0].mediabox.height  # Height in pts of the input
+    num_pages = len(reader.pages)  # Number of pages of the input
     
     # Create a temporary PDF to hold the additional texts
     temp_pdf_path = "temp_headerfooter.pdf"
@@ -74,24 +74,24 @@ def add_header_footer(input_path, output_path):
         # Draw docid and page number in header
         c.setFont("Helvetica", 12)
         
-        c.drawString(cm(2), 
-                     height - cm(1),
-                     "doc_id_placeholder") # Docid
+        c.drawString(2.54 * cm, 
+                     height - 1.5 * cm,
+                     "doc_id_placeholder")  # Docid
 
-        c.drawRightString(width - cm(2),
-                          height - cm(1), 
-                          str(i + 1)) # Page number
+        c.drawRightString(width - 2.54 * cm,
+                          height - 1.5 * cm, 
+                          str(i + 1))  # Page number
 
         # Draw classification in middle of header/footer
         c.setFont("Helvetica", 16)
 
         c.drawCentredString(width / 2, 
-                            height - cm(1),
-                            "classification") # Header
+                            height - 1 * cm,
+                            "classification")  # Header
 
         c.drawCentredString(width / 2, 
-                            cm(1),
-                            "classification") # Footer
+                            1 * cm,
+                            "classification")  # Footer
     
     c.save()
     
@@ -110,8 +110,8 @@ def add_header_footer(input_path, output_path):
         writer.add_page(original_page)
     
     # Write the final PDF to the output path
-    with open(output_path, "wb") as output_path:
-        writer.write(output_path)
+    with open(output_path, "wb") as output_file:
+        writer.write(output_file)
 
     return output_path
 
