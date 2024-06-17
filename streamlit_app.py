@@ -13,8 +13,6 @@ from reportlab.lib.units import cm
 from PyPDF2 import PdfReader, PdfWriter
 
 st.title("ZIP to PDF Converter")
-st.write("version 955")
-
 
 def unzip_file(stfileuploader, destination):
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
@@ -145,9 +143,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
             
             SMC_pdf = html_to_pdf(html_path=os.path.join(unzipped, "SMC_index.html"), pdf_path=f"SMC_{i}.pdf")
             list_SMC.append(SMC_pdf)
-
-    st.json(list_A4)
-    st.json(list_A4)
 
     if zip_2: #and other conditions such as the families
 
