@@ -156,15 +156,20 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
 
 
 
+
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
-    
-    # Accept 4 zip files
-    st.title("ZIP to PDF Converter")
 
+    # Create a container for the results (because of the way streamlit reruns the script)
+    st.title("ZIP to PDF Converter")
+    results_container = st.container
+    results_container.empty()
+
+    # Accept 4 zip files
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
     zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
@@ -224,11 +229,11 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
                                 )        
 
         try:
-            st.success("Conversion complete")
-            
-            st.header("Output files:")
-            st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-            st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            with results_container:
+                st.success("Conversion complete")
+                st.header("Output files:")
+                st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+                st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
         except:
             st.error("Something went wrong, the output could not be presented.")
 
