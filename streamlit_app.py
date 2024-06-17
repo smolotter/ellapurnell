@@ -74,12 +74,12 @@ def add_header_footer(input_path, output_path):
         # Draw docid and page number in header
         c.setFont("Helvetica", 12)
         
-        c.drawString(cm(2.54), 
-                     height - cm(1.5),
+        c.drawString(cm(2), 
+                     height - cm(1),
                      "doc_id_placeholder") # Docid
 
-        c.drawRightString(width - cm(2.54),
-                          height - cm(1.5), 
+        c.drawRightString(width - cm(2),
+                          height - cm(1), 
                           str(i + 1)) # Page number
 
         # Draw classification in middle of header/footer
