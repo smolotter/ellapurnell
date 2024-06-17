@@ -3,6 +3,7 @@ import subprocess
 import zipfile
 import tempfile
 from io import BytesIO
+from datetime import datetime
 
 import streamlit as st
 from reportlab.pdfgen import canvas
@@ -11,12 +12,31 @@ from PyPDF2 import PdfReader, PdfWriter
 
 
 def unzip_file(stfileuploader, destination):
+    """
+    Unzip a file uploaded through Streamlit's file uploader and extract its contents to a specified destination.
+
+    Parameters:
+    - stfileuploader (UploadedFile): The file uploaded through Streamlit's file uploader.
+    - destination (str): The directory path where the contents of the ZIP file will be extracted.
+
+    Returns:
+    - destination (str)
+    """
     with zipfile.ZipFile(BytesIO(stfileuploader.read()), 'r') as zip_ref:
         zip_ref.extractall(destination)
     return destination
 
-def html_to_pdf(html_path, pdf_path):
-    """Converts an HTML file to PDF using Chromium."""
+def html_to_pdf(html_path, pdf_path):\
+    """
+    Converts an HTML file to PDF using Chromium.
+
+    Parameters:
+    - html_path (str): Path to the HTML file to be converted.
+    - pdf_path (str): Path where the generated PDF will be saved.
+
+    Returns:
+    - pdf_path (str)
+    """
     command = [
                 "chromium",
                 "--headless",
@@ -32,7 +52,16 @@ def html_to_pdf(html_path, pdf_path):
     return pdf_path
 
 def combine_pdfs(list_of_individual_files, output_path):
-    """Combines a list of PDFs into a single PDF."""
+    """
+    Combines a list of PDFs into a single PDF.
+
+    Parameters:
+    - list_of_individual_files (list): List of paths to individual PDF files to be combined.
+    - output_path (str): Path where the combined PDF will be saved.
+
+    Returns:
+    - output_path (str)
+    """
     merger = PdfWriter()
 
     for pdf in list_of_individual_files:
@@ -45,7 +74,24 @@ def combine_pdfs(list_of_individual_files, output_path):
 
 
 def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fontsz_classification, fontsz_others, margin_top, margin_right, margin_bottom, margin_left):
-    
+    """
+    Add header and footer to an existing PDF document.
+
+    Parameters:
+    - input_path (str): Path to the input PDF file.
+    - output_path (str): Path to save the output PDF file with headers and footers.
+    - pdt_classification (str): Text for the classification to be displayed in the header and footer.
+    - pdt_docid (str): Text for the document id to be displayed in the header.
+    - fontsz_classification (int): Font size for the classification text, in points.
+    - fontsz_others (int): Font size for the document id and page number text, in points
+    - margin_top (float): Top margin for the header, in points.
+    - margin_right (float): Right margin for the header and footer, in points.
+    - margin_bottom (float): Bottom margin for the footer, in points.
+    - margin_left (float): Left margin for the header, in points.
+
+    Returns:
+    - output_path (str): Path to the output PDF file with added headers and footers.
+    """
     # Create a writer instance
     writer = PdfWriter()
     
@@ -109,6 +155,9 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
     return output_path
 
 
+
+
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
 
@@ -117,7 +166,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
     
     # Accept 4 zip files
     st.title("ZIP to PDF Converter")
-    st.write("105")
 
     zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
     zip_2 = st.file_uploader("Upload Main Product", type="zip")
@@ -132,7 +180,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     # Iterate through the uploaded zip files
     zip_files = [zip_1, zip_2, zip_3, zip_4]
-
     for i, zip_file in enumerate(zip_files, 1):
         if zip_file:
             unzipped = unzip_file(stfileuploader=zip_file, destination=f"unzipped_{i}")
@@ -143,6 +190,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
             SMC_pdf = html_to_pdf(html_path=os.path.join(unzipped, "SMC_index.html"), pdf_path=f"SMC_{i}.pdf")
             list_SMC.append(SMC_pdf)
 
+    # Combine the PDFs and add header/footer
     if zip_2: #and other conditions such as the families
 
         # Combine the PDFs
@@ -177,7 +225,19 @@ with tempfile.TemporaryDirectory() as temp_dir:
                                 margin_left = 1 * cm,
                                 )        
 
+        st.success("Conversion complete")
+
+        st.header("Output files:")
+        st.download_button(label=filename, data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+        st.download_button(label=filename, data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+
+
+
+
+
+
         # For debugging
+        st.header(f"For debugging:")
         filenames = ["A4_1.pdf", "SMC_1.pdf",
                      "A4_2.pdf", "SMC_2.pdf",
                      "A4_3.pdf", "SMC_3.pdf",
@@ -185,22 +245,17 @@ with tempfile.TemporaryDirectory() as temp_dir:
                      "A4_C.pdf", "SMC_C.pdf",
                      "A4_O.pdf", "SMC_O.pdf",
                     ]
-        st.header(f"For debugging:")
         for filename in filenames:
             try:
                 st.download_button(label=filename, data=open(os.path.join(temp_dir, filename), 'rb').read(), file_name=filename)
             except:
                 st.write(f"{filename} not exist")
 
-    
-    
     # For debugging (to confirm everything is happening in tempdir)
     os.chdir('/')
     st.header(f"Debug: contents of '{temp_dir}':")
     st.json(os.listdir(temp_dir))
 
-    # For debugging (to confirm everything is happening in tempdir)
-    os.chdir('/')
     st.header(f"Debug: contents of '/':")
     st.json(os.listdir('/'))
 
