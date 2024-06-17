@@ -117,7 +117,6 @@ def add_header_footer(input_path, output_path):
     return output_path
 
 
-
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir:
     # Change the current working directory to temp_dir
