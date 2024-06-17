@@ -49,7 +49,7 @@ def combine_pdfs(list_of_individual_files, output_path):
     return output_path
 
 
-def add_header_footer(input_path, output_path):
+def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fontsz_classification, fontsz_others, margin_top, margin_right, margin_bottom, margin_left):
     
     # Create a writer instance
     writer = PdfWriter()
@@ -69,28 +69,28 @@ def add_header_footer(input_path, output_path):
         # Start a new page in the temporary PDF
         c.showPage()
 
-        # Draw docid and page number in header
-        c.setFont("Helvetica", 12)
-        
-        c.drawString(2.54 * cm, 
-                     height - 1.5 * cm,
-                     "doc_id_placeholder")  # Docid
+        # Draw classification in middle of header/footer
+        c.setFont("Helvetica", fontsz_classification)
 
-        c.drawRightString(width - 2.54 * cm,
-                          height - 1.5 * cm, 
+        c.drawCentredString(width / 2, 
+                            height - margin_top * cm,
+                            pdt_classification)  # Header
+
+        c.drawCentredString(width / 2, 
+                            margin_bottom * cm,
+                            pdt_classification)  # Footer
+
+        # Draw docid and page number in header
+        c.setFont("Helvetica", fontsz_others)
+        
+        c.drawString(margin_left * cm, 
+                     height - margin_top * cm - fontsz_classification,
+                     pdt_docid)  # Docid
+
+        c.drawRightString(width - margin_right * cm,
+                          height - margin_top * cm, 
                           str(i + 1))  # Page number
 
-        # Draw classification in middle of header/footer
-        c.setFont("Helvetica", 16)
-
-        c.drawCentredString(width / 2, 
-                            height - 1 * cm,
-                            "classification")  # Header
-
-        c.drawCentredString(width / 2, 
-                            1 * cm,
-                            "classification")  # Footer
-    
     c.save()
     
     # Read the temporary PDF with the additional texts
@@ -152,9 +152,32 @@ with tempfile.TemporaryDirectory() as temp_dir:
         SMC_C = combine_pdfs(list_of_individual_files = list_SMC, output_path = "SMC_C.pdf")
 
         # Add header and footer
-        A4_O = add_header_footer(input_path = A4_C, output_path = "A4_O.pdf")
-        SMC_O = add_header_footer(input_path = SMC_C, output_path = "SMC_O.pdf")
+        pdt_classification = "TOP SECRET & CILANTRO"
+        pdt_docid = "AB/123/2023"
+
+        A4_O = add_header_footer(input_path = A4_C, 
+                                output_path = "A4_O.pdf", 
+                                pdt_classification = pdt_classification, 
+                                pdt_docid = pdt_docid, 
+                                fontsz_classification = 15, 
+                                fontsz_others = 12, 
+                                margin_top = 1, 
+                                margin_right = 2.54, 
+                                margin_bottom = 1, 
+                                margin_left = 2.54,
+                                )
         
+        SMC_O = add_header_footer(input_path = SMC_C,
+                                output_path = "SMC_O.pdf", 
+                                pdt_classification = pdt_classification, 
+                                pdt_docid = pdt_docid, 
+                                fontsz_classification = 15, 
+                                fontsz_others = 12, 
+                                margin_top = 0.5, 
+                                margin_right = 1, 
+                                margin_bottom = -1, # Place off page 
+                                margin_left = 1,
+                                )        
 
         # For debugging
         filenames = ["A4_1.pdf", "SMC_1.pdf",
