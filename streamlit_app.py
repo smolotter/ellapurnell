@@ -26,7 +26,7 @@ def unzip_file(stfileuploader, destination):
         zip_ref.extractall(destination)
     return destination
 
-def html_to_pdf(html_path, pdf_path):\
+def html_to_pdf(html_path, pdf_path):
     """
     Converts an HTML file to PDF using Chromium.
 
