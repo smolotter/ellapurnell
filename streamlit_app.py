@@ -158,35 +158,40 @@ def add_header_footer(input_path, output_path, pdt_classification, pdt_docid, fo
 
 
 
+
+st.title("ZIP to PDF Converter")
+
+# Accept 4 zip files
+zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
+zip_2 = st.file_uploader("Upload Main Product", type="zip")
+zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
+zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
+
+# Placeholder
+pdt_classification = "TOP SECRET & CILANTRO"
+pdt_docid = "AB/123/2023"
+
+# Create lists to hold individual pdfs
+list_A4 = []
+list_SMC = []
+    
+    ### TODO: add the coverpg
+
 # Create a temp_dir to work in
 with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
 
-    # Create a container for the results (because of the way streamlit reruns the script)
-    st.title("ZIP to PDF Converter")
-    results_container = st.container()
-    results_container.empty()
-
-    # Accept 4 zip files
-    zip_1 = st.file_uploader("Upload Covernote (if any)", type="zip")
-    zip_2 = st.file_uploader("Upload Main Product", type="zip")
-    zip_3 = st.file_uploader("Upload Annex (if any)", type="zip")
-    zip_4 = st.file_uploader("Upload Distriubtion List", type="zip")
-
-    # Create lists to hold individual pdfs
-    list_A4 = []
-    list_SMC = []
-
-    # TODO: add the coverpg
-
     # Iterate through the uploaded zip files
     zip_files = [zip_1, zip_2, zip_3, zip_4]
     for i, zip_file in enumerate(zip_files, 1):
         if zip_file:
+
+            # Unzip them
             unzipped = unzip_file(stfileuploader=zip_file, destination=f"unzipped_{i}")
             
+            # Look for the html files, convert to pdf, and append them to a list for processing in the next step
             A4_pdf = html_to_pdf(html_path=os.path.join(unzipped, "index.html"), pdf_path=f"A4_{i}.pdf")
             list_A4.append(A4_pdf)
             
@@ -201,9 +206,6 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
         SMC_C = combine_pdfs(list_of_individual_files = list_SMC, output_path = "SMC_C.pdf")
 
         # Add header and footer
-        pdt_classification = "TOP SECRET & CILANTRO"
-        pdt_docid = "AB/123/2023"
-
         A4_O = add_header_footer(input_path = A4_C, 
                                 output_path = "A4_O.pdf", 
                                 pdt_classification = pdt_classification, 
@@ -229,11 +231,10 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing...'):
                                 )        
 
         try:
-            with results_container:
-                st.success("Conversion complete")
-                st.header("Output files:")
-                st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-                st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            st.info("Wait for processing to be complete before downloading!")
+            st.header("Output files:")
+            st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+            st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
         except:
             st.error("Something went wrong, the output could not be presented.")
 
