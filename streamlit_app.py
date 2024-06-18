@@ -9,6 +9,7 @@ import streamlit as st
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
 from PyPDF2 import PdfReader, PdfWriter
+# Also chromium in packages
 
 
 def unzip_file(stfileuploader, destination):
