@@ -178,8 +178,7 @@ list_SMC = []
     ### TODO: add the coverpg
 
 # Create a temp_dir to work in
-with tempfile.TemporaryDirectory() as temp_dir,
-     st.spinner('Processing (wait for this message to disappear before clicking download button.)...'): # Need to use this for streamlit because of the way it re-processess.
+with tempfile.TemporaryDirectory() as temp_dir, st.spinner('(Re)processing (wait for this message to disappear before clicking download button.)...'): # Need to use this for streamlit because of the way it re-processess.
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
