@@ -178,7 +178,8 @@ list_SMC = []
     ### TODO: add the coverpg
 
 # Create a temp_dir to work in
-with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing (wait for this message to disappear before clicking download button.)...'):
+with tempfile.TemporaryDirectory() as temp_dir,
+     st.spinner('Processing (wait for this message to disappear before clicking download button.)...'): # Need to use this for streamlit because of the way it re-processess.
 
     # Change the current working directory to temp_dir
     os.chdir(temp_dir)
@@ -230,14 +231,11 @@ with tempfile.TemporaryDirectory() as temp_dir, st.spinner('Processing (wait for
                                 margin_left = 1 * cm,
                                 )        
 
-        try:
-            st.header("Output files:")
-            st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-            st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
-        except:
-            st.error("Something went wrong, the output could not be presented.")
-
-
+        # Provide download links
+        st.header("Output files:")
+        st.download_button(label="A4 output", data=open(A4_O, 'rb').read(), file_name=pdt_docid + " (A4) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+        st.download_button(label="SMC output", data=open(SMC_O, 'rb').read(), file_name=pdt_docid + " (SMC) " + datetime.now().strftime("(%d %b %Y %H%M)"))
+    
 
     with st.expander("For debugging"):
         # For debugging
