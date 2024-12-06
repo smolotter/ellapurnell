@@ -103,19 +103,12 @@ def main():
                     path_of_index_html = path_of_dir + "/index.html"
                     path_of_pdf = path_of_dir + "/hc.pdf"
                     html_to_pdf(path_of_index_html, path_of_pdf)
-
-                    with open(path_of_pdf, "rb") as file:
-                        btn = st.download_button(
-                            label="Download PDF",
-                            data=file,
-                            file_name="your_pdf_file.pdf",
-                            mime="application/octet-stream"
-                        )
-
-
                     list_of_pdf_files_hc.append(path_of_pdf)
 
-
+                    path_of_SMC_index_html = path_of_dir + "/SMC_index.html"
+                    path_of_pdf = path_of_dir + "/smc.pdf"
+                    html_to_pdf(path_of_SMC_index_html, path_of_pdf)
+                    list_of_pdf_files_smc.append(path_of_pdf)
 
 
             list_directory(temp_dir)
