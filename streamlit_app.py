@@ -115,20 +115,15 @@ def main():
             path_of_smc_pdf_output = temp_dir + "/output_smc.pdf"
             combine_pdfs(list_of_pdf_files_smc, path_of_smc_pdf_output)
 
-
             list_directory(temp_dir)
 
-
-
-
-            # # Download the combined PDF
-            # with open(output_path, 'rb') as f:
-            #     st.download_button(
-            #         label="Download Combined PDF",
-            #         data=f,
-            #         file_name="combined.pdf",
-            #         mime='application/pdf'
-            #     )
+            with open(path_of_hc_pdf_output, 'rb') as f:
+                st.download_button(
+                    label="Download Combined PDF",
+                    data=f,
+                    file_name="comb_a4.pdf",
+                    mime='application/pdf'
+                )
 
 if __name__ == "__main__":
     main()
