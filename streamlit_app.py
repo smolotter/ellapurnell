@@ -1,5 +1,5 @@
 import streamlit as st
- 
+  
 def main():
     st.title("Dynamic File Uploader")
 
@@ -11,7 +11,7 @@ def main():
         st.write("If there is a covernote but no annex, also 3: One covernote + One product body + One distribution list.")
         st.write("If there is a covernote and an annex, then 4: One covernote + One product body + One annex + One distribution list.")
         st.write("If this is a ES package, you may need more. For example, One packaging note + One EN + One distribution + Five Pensketches + Five distribution lists = 13.")
-        
+
     num_files = st.selectbox("Select Number of Files", range(2, 101))
 
     # Create a list to store the uploaded files
