@@ -69,7 +69,11 @@ def main():
     st.markdown("**How many zip files do you have?**")
     with st.expander("Click here to see examples"):
         st.write("The minimum is 2: One product body + One distribution list.")
-        # ... (rest of explanation)
+        st.write("If there is an annex then 3: One product body + One annex + One distribution list.")
+        st.write("If there is a covernote but no annex, also 3: One covernote + One product body + One distribution list.")
+        st.write("If there is a covernote and an annex, then 4: One covernote + One product body + One annex + One distribution list.")
+        st.write("If this is a ES package, you may need more. For example, One packaging note + One EN + One distribution + Five Pensketches + Five distribution lists = 13.")
+
 
     num_files = st.selectbox("Select Number of Files", range(2, 51))
 
