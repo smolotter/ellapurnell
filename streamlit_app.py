@@ -111,7 +111,7 @@ def main():
 
 
                                         # Read the HTML content from the file
-                    with open(index_htmle, "r") as f:
+                    with open(index_html, "r") as f:
                         html_content = f.read()
 
                     # Display the HTML content in the Streamlit app
@@ -120,7 +120,7 @@ def main():
 
 
 
-                    
+
                     path_of_pdf = path_of_pdf_dir + "/" + str(i + 1) + "_hc.pdf"
                     
                     path_of_pdf = html_to_pdf(index_html, path_of_pdf)
