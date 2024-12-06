@@ -55,6 +55,13 @@ def combine_pdfs(list_of_individual_files, output_path):
 
     return output_path
 
+def list_directory(directory):
+    for item in os.listdir(directory):
+        full_path = os.path.join(directory, item)
+        st.write(item + ("/" if os.path.isdir(full_path) else ""))
+        if os.path.isdir(full_path):
+            list_directory(full_path)
+
 
 def main():
     st.title("Dynamic File Uploader and PDF Combiner")
@@ -101,6 +108,9 @@ def main():
                     st.write(hc_pdf)
                     html_to_pdf(index_html, hc_pdf)
                     pdf_files_hc.append(hc_pdf)
+        
+        list_directory(temp_dir)
+
 
                     # smc_index_html = temp_dir_num + "/SMC_index.html" 
                     # smc_pdf = temp_dir_pdf + "/" +  str(i + 1) + "_smc.pdf"
