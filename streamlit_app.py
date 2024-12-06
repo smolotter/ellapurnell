@@ -62,14 +62,14 @@ def main():
             st.write(temp_dir)
             for i, file in enumerate(uploaded_files):
 
-                temp_dir_num = "temp_dir" + "/" + str(i)
+                temp_dir_num = "temp_dir" + "/" + str(i + 1)
                 st.write (temp_dir_num)
                 if file is not None:
                     st.write(f"File {i+1}: {file.name}")
 
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
-                        zip_ref.extractall(temp_dir)
+                        zip_ref.extractall(temp_dir_num)
                     
 
 
