@@ -92,7 +92,6 @@ def main():
 
             list_of_pdf_files_hc = []
             list_of_pdf_files_smc = []
-            path_of_pdf_dir = temp_dir + "/pdf"
 
             for i, file in enumerate(uploaded_files):
 
@@ -104,15 +103,13 @@ def main():
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(path_of_zip_dir)
 
-                    index_html = path_of_zip_dir + "/index.html"
+                    path_of_index_html = path_of_zip_dir + "/index.html"
+                    path_of_pdf = path_of_pdf_dir + "hc.pdf"
+
+
+                    html_to_pdf(path_of_index_html, path_of_pdf)
+
                     
-
-                    st.write(index_html)
-
-                    path_of_pdf = path_of_pdf_dir + "/" + str(i + 1) + "_hc.pdf"
-                    st.write (path_of_pdf)
-                                    
-                    path_of_pdf = html_to_pdf(index_html, path_of_pdf)
                     list_of_pdf_files_hc.append(path_of_pdf)
 
             list_directory(temp_dir)
