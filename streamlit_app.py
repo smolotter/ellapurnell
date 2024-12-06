@@ -83,7 +83,7 @@ def main():
 
             pdf_files_hc = []
             pdf_files_smc = []
-            temp_dir_pdf = "temp_dir" + "/pdf"
+            temp_dir_pdf = temp_dir + "/pdf"
 
             for i, file in enumerate(uploaded_files):
 
