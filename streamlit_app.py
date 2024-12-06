@@ -75,10 +75,10 @@ def main():
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir_num)
 
-                    st.write("walking")
-                    for item in os.walk(temp_dir):
-                        st.write(item)
-                    st.write("walked")
+            st.write("walking")
+            for item in os.walk(temp_dir):
+                st.write(item)
+            st.write("walked")
 
 
             #         # Iterate through each file in the unzipped directory
