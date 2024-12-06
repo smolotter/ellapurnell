@@ -78,6 +78,7 @@ def main():
                     st.write("walking")
                     for item in os.listdir(temp_dir):
                         st.write(item)
+                    st.write("walked")
 
 
             #         # Iterate through each file in the unzipped directory
