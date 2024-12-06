@@ -96,7 +96,9 @@ def main():
                         zip_ref.extractall(temp_dir_num)
 
                     index_html = temp_dir_num + "/index.html"
+                    st.write(index_html)
                     hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
+                    st.write(hc_pdf)
                     html_to_pdf(index_html, hc_pdf)
                     pdf_files_hc.append(hc_pdf)
 
