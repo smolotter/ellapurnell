@@ -32,6 +32,8 @@ def html_to_pdf(html_path, pdf_path):
     output, error = process.communicate()
     if error:
         st.error(f"Error converting HTML to PDF: {error.decode()}")
+    else:
+        st.write("conversion successful")
     return pdf_path
 
 def combine_pdfs(list_of_individual_files, output_path):
@@ -103,6 +105,7 @@ def main():
                         zip_ref.extractall(temp_dir_num)
 
                     index_html = temp_dir_num + "/index.html"
+                    
                     st.write(index_html)
                     hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
                     st.write(hc_pdf)
