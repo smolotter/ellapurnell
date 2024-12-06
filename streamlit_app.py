@@ -63,7 +63,7 @@ def main():
             for i, file in enumerate(uploaded_files):
 
                 temp_dir_num = "temp_dir" + "/" + "i"
-
+                st.write (temp_dir_num)
                 if file is not None:
                     st.write(f"File {i+1}: {file.name}")
 
