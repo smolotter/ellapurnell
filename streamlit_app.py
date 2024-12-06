@@ -58,7 +58,7 @@ def main():
         # List to store paths of all PDF files
         pdf_files = []
         # Create a temporary directory to extract the zip file
-        with tempfile.mkdtemp() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
             for i, file in enumerate(uploaded_files):
                 if file is not None:
                     st.write(f"File {i+1}: {file.name}")
@@ -90,4 +90,13 @@ def main():
             merger.write(output_path)
 
             # Download the combined PDF
-            with open(output_path
+            with open(output_path, 'rb') as f:
+                st.download_button(
+                    label="Download Combined PDF",
+                    data=f,
+                    file_name="combined.pdf",
+                    mime='application/pdf'
+                )
+
+if __name__ == "__main__":
+    main()
