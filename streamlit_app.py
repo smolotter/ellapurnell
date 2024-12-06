@@ -19,6 +19,7 @@ def html_to_pdf(html_path, pdf_path):
     Returns:
     - pdf_path (str)
     """
+    st.write ("converting")
     command = [
         "chromium",
         "--headless",
