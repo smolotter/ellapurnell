@@ -19,7 +19,7 @@ def html_to_pdf(html_path, pdf_path):
     Returns:
     - pdf_path (str)
     """
-    st.write ("converting")
+    
     command = [
         "chromium",
         "--headless",
@@ -33,8 +33,7 @@ def html_to_pdf(html_path, pdf_path):
     output, error = process.communicate()
     if error:
         st.error(f"Error converting HTML to PDF: {error.decode()}")
-    else:
-        st.write("conversion successful")
+
     return pdf_path
 
 def combine_pdfs(list_of_individual_files, output_path):
