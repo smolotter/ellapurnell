@@ -76,7 +76,7 @@ def main():
                         zip_ref.extractall(temp_dir_num)
 
                     st.write("walking")
-                    for item in os.listdir(temp_dir):
+                    for item in os.walk(temp_dir):
                         st.write(item)
                     st.write("walked")
 
