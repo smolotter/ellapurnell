@@ -110,6 +110,7 @@ def main():
                     html_to_pdf(path_of_SMC_index_html, path_of_pdf)
                     list_of_pdf_files_smc.append(path_of_pdf)
 
+            st.write (list_of_pdf_files_hc)
 
             list_directory(temp_dir)
 
