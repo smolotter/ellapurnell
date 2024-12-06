@@ -4,20 +4,68 @@ import tempfile
 import subprocess
 from PyPDF2 import PdfWriter, PdfReader
 import streamlit as st
+
 import shutil
 
+
 def html_to_pdf(html_path, pdf_path):
-    # ... (your existing html_to_pdf function)
+    """
+    Converts an HTML file to PDF using Chromium.
+
+    Parameters:
+    - html_path (str): Path to the HTML file to be converted.
+    - pdf_path (str): Path where the generated PDF will be saved.
+
+    Returns:
+    - pdf_path (str)
+    """
+    command = [
+        "chromium",
+        "--headless",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--no-pdf-header-footer",
+        "--print-to-pdf=" + pdf_path,
+        html_path,
+    ]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process.communicate()
+
+    return pdf_path
 
 def main():
     st.title("Dynamic File Uploader and PDF Combiner")
 
-    # ... (rest of your code for selecting files and unzipping)
+    # Create a dropdown menu with options from 1 to 50
+    st.markdown("**How many zip files do you have?**")
+    with st.expander("Click here to see examples"):
+        st.write("The minimum is 2: One product body + One distribution list.")
+        st.write("If there is an annex then 3: One product body + One annex + One distribution list.")
+        st.write("If there is a covernote but no annex, also 3: One covernote + One product body + One distribution list.")
+        st.write("If there is a covernote and an annex, then 4: One covernote + One product body + One annex + One distribution list.")
+        st.write("If this is a ES package, you may need more. For example, One packaging note + One EN + One distribution + Five Pensketches + Five distribution lists = 13.")
+
+    num_files = st.selectbox("Select Number of Files", range(2, 51))
+
+    # Create a list to store the uploaded files
+    uploaded_files = []
+
+    # Create the appropriate number of file upload boxes
+    for i in range(num_files):
+        uploaded_file = st.file_uploader(f"Upload File {i+1}")
+        uploaded_files.append(uploaded_file)
 
     if uploaded_files:
         for i, file in enumerate(uploaded_files):
             if file is not None:
-                # ... (rest of your code for unzipping the file)
+                st.write(f"File {i+1}: {file.name}")
+
+                # Create a temporary directory to extract the zip file
+                temp_dir = tempfile.mkdtemp()
+
+                # Extract the zip file to the temporary directory
+                with zipfile.ZipFile(file, 'r') as zip_ref:
+                    zip_ref.extractall(temp_dir)
 
                 # List to store paths of all PDF files
                 pdf_files = []
