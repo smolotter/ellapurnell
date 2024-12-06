@@ -106,6 +106,20 @@ def main():
 
                     index_html = path_of_zip_dir + "/index.html"
                     
+
+
+
+
+                                        # Read the HTML content from the file
+                    with open(index_htmle, "r") as f:
+                        html_content = f.read()
+
+                    # Display the HTML content in the Streamlit app
+                    st.components.v1.html(html_content, height=None)
+                    
+
+
+
                     
                     path_of_pdf = path_of_pdf_dir + "/" + str(i + 1) + "_hc.pdf"
                     
