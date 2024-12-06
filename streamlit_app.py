@@ -75,7 +75,9 @@ def main():
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir_num)
 
-                    st.write(os.walk(temp_dir))
+                    for item in os.listdir(temp_dir):
+                        st.write(item)
+
 
                     # Iterate through each file in the unzipped directory
                     for root, dirs, files in os.walk(temp_dir):
