@@ -19,20 +19,17 @@ def html_to_pdf(html_path, pdf_path):
     Returns:
     - pdf_path (str)
     """
-    
     command = [
-        "chromium",
-        "--headless",
-        "--no-sandbox",
-        "--disable-gpu",
-        "--no-pdf-header-footer",
-        "--print-to-pdf=" + pdf_path,
-        html_path,
-    ]
+                "chromium",
+                "--headless",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--no-pdf-header-footer",
+                "--print-to-pdf=" + pdf_path,
+                html_path,
+                ]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    output, error = process.communicate()
-    if error:
-        st.error(f"Error converting HTML to PDF: {error.decode()}")
+    process.communicate()
 
     return pdf_path
 
