@@ -103,6 +103,7 @@ def main():
                     smc_pdf = temp_dir_pdf + str(i + 1) + "_smc.pdf"
                     pdf_files_smc.append(smc_pdf)
                     
+            st.write (pdf_files_hc)
             
             output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
             combine_pdfs(pdf_files_hc, output_path_hc)
