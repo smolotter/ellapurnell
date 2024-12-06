@@ -97,10 +97,12 @@ def main():
 
                     index_html = temp_dir_num + "/index.html"
                     hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
+                    html_to_pdf(index_html, hc_pdf)
                     pdf_files_hc.append(hc_pdf)
 
                     smc_index_html = temp_dir_num + "/SMC_index.html" 
                     smc_pdf = temp_dir_pdf + "/" +  str(i + 1) + "_smc.pdf"
+                    html_to_pdf(smc_index_html, smc_pdf)
                     pdf_files_smc.append(smc_pdf)
                     
             st.write (pdf_files_hc)
