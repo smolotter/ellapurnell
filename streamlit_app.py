@@ -59,6 +59,7 @@ def main():
         pdf_files = []
         # Create a temporary directory to extract the zip file
         with tempfile.TemporaryDirectory() as temp_dir:
+            st.write(temp_dir)
             for i, file in enumerate(uploaded_files):
                 if file is not None:
                     st.write(f"File {i+1}: {file.name}")
