@@ -29,9 +29,11 @@ def html_to_pdf(html_path, pdf_path):
         html_path,
     ]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    process.communicate()
-
+    output, error = process.communicate()
+    if error:
+        st.error(f"Error converting HTML to PDF: {error.decode()}")
     return pdf_path
+
 
 def main():
     st.title("Dynamic File Uploader and PDF Combiner")
@@ -40,10 +42,7 @@ def main():
     st.markdown("**How many zip files do you have?**")
     with st.expander("Click here to see examples"):
         st.write("The minimum is 2: One product body + One distribution list.")
-        st.write("If there is an annex then 3: One product body + One annex + One distribution list.")
-        st.write("If there is a covernote but no annex, also 3: One covernote + One product body + One distribution list.")
-        st.write("If there is a covernote and an annex, then 4: One covernote + One product body + One annex + One distribution list.")
-        st.write("If this is a ES package, you may need more. For example, One packaging note + One EN + One distribution + Five Pensketches + Five distribution lists = 13.")
+        # ... (rest of explanation)
 
     num_files = st.selectbox("Select Number of Files", range(2, 51))
 
@@ -60,17 +59,13 @@ def main():
         pdf_files = []
         # Create a temporary directory to extract the zip file
         with tempfile.mkdtemp() as temp_dir:
-
             for i, file in enumerate(uploaded_files):
                 if file is not None:
                     st.write(f"File {i+1}: {file.name}")
 
-
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir)
-
-                    st.write (pdf_files)
 
                     # Iterate through each file in the unzipped directory
                     for root, dirs, files in os.walk(temp_dir):
@@ -95,15 +90,4 @@ def main():
             merger.write(output_path)
 
             # Download the combined PDF
-            with open(output_path, 'rb') as f:
-                st.download_button(
-                    label="Download Combined PDF",
-                    data=f,
-                    file_name="combined.pdf",
-                    mime='application/pdf'
-                )
-
-
-
-if __name__ == "__main__":
-    main()
+            with open(output_path
