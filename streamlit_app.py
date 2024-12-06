@@ -96,11 +96,11 @@ def main():
                         zip_ref.extractall(temp_dir_num)
 
                     index_html = temp_dir_num + "/index.html"
-                    hc_pdf = temp_dir_pdf + str(i + 1) + "_hc.pdf"
+                    hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
                     pdf_files_hc.append(hc_pdf)
 
                     smc_index_html = temp_dir_num + "/SMC_index.html" 
-                    smc_pdf = temp_dir_pdf + str(i + 1) + "_smc.pdf"
+                    smc_pdf = temp_dir_pdf + "/" +  str(i + 1) + "_smc.pdf"
                     pdf_files_smc.append(smc_pdf)
                     
             st.write (pdf_files_hc)
