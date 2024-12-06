@@ -104,11 +104,11 @@ def main():
                     pdf_files_smc.append(smc_pdf)
                     
             
-        output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
-        combine_pdfs(pdf_files_hc, output_path_hc)
+            output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
+            combine_pdfs(pdf_files_hc, output_path_hc)
 
-        output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
-        combine_pdfs(pdf_files_smc, output_path_smc)
+            output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
+            combine_pdfs(pdf_files_smc, output_path_smc)
 
 
             # # Download the combined PDF
