@@ -76,8 +76,15 @@ def main():
                         zip_ref.extractall(temp_dir_num)
 
             st.write("walking")
-            for item in os.walk(temp_dir):
-                st.write(item)
+            def list_directory(directory):
+                for item in os.listdir(directory):
+                    full_path = os.path.join(directory, item)
+                    st.write(item + ("/" if os.path.isdir(full_path) else ""))
+                    if os.path.isdir(full_path):
+                        list_directory(full_path)
+
+            list_directory(temp_dir)
+
             st.write("walked")
 
 
