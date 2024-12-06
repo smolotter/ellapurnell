@@ -70,6 +70,8 @@ def main():
                 # List to store paths of all PDF files
                 pdf_files = []
 
+                st.write (pdf_files)
+                
                 # Iterate through each file in the unzipped directory
                 for root, dirs, files in os.walk(temp_dir):
                     for file in files:
