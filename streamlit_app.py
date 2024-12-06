@@ -66,7 +66,7 @@ def main():
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir)
-
+                    st.write ("1")
                     # Iterate through each file in the unzipped directory
                     for root, dirs, files in os.walk(temp_dir):
                         for file in files:
@@ -76,7 +76,7 @@ def main():
                                 html_to_pdf(html_path, pdf_path)
                             elif file.endswith(".pdf"):
                                 pdf_files.append(os.path.join(root, file))
-
+                    st.write ("2")
             # Combine PDF files
             merger = PdfWriter()
             for pdf_file in pdf_files:
