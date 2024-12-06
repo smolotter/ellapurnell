@@ -90,43 +90,31 @@ def main():
         # Create a temporary directory to extract the zip file
         with tempfile.TemporaryDirectory() as temp_dir:
 
-            pdf_files_hc = []
-            pdf_files_smc = []
-            temp_dir_pdf = temp_dir + "/pdf"
+            list_of_pdf_files_hc = []
+            list_of_pdf_files_smc = []
+            path_of_pdf_dir = temp_dir + "/pdf"
 
             for i, file in enumerate(uploaded_files):
 
                 if file is not None:
                     st.write(f"Processing file {i+1}: {file.name}")
-                    temp_dir_num = temp_dir + "/" + str(i + 1)
+                    path_of_zip_dir = temp_dir + "/" + str(i + 1)
 
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
-                        zip_ref.extractall(temp_dir_num)
+                        zip_ref.extractall(path_of_zip_dir)
 
-                    index_html = temp_dir_num + "/index.html"
+                    index_html = path_of_zip_dir + "/index.html"
                     
-                    st.write(index_html)
-                    hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
-                    st.write(hc_pdf)
-                    hc_pdf = html_to_pdf(index_html, hc_pdf)
-                    pdf_files_hc.append(hc_pdf)
+                    
+                    path_of_pdf = path_of_pdf_dir + "/" + str(i + 1) + "_hc.pdf"
+                    
+                    path_of_pdf = html_to_pdf(index_html, path_of_pdf)
+                    list_of_pdf_files_hc.append(path_of_pdf)
 
             list_directory(temp_dir)
 
 
-                    # smc_index_html = temp_dir_num + "/SMC_index.html" 
-                    # smc_pdf = temp_dir_pdf + "/" +  str(i + 1) + "_smc.pdf"
-                    # html_to_pdf(smc_index_html, smc_pdf)
-                    # pdf_files_smc.append(smc_pdf)
-                    
-            # st.write (pdf_files_hc)
-            
-            # output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
-            # combine_pdfs(pdf_files_hc, output_path_hc)
-
-            # output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
-            # combine_pdfs(pdf_files_smc, output_path_smc)
 
 
             # # Download the combined PDF
