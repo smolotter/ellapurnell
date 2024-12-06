@@ -56,10 +56,14 @@ def main():
 
     if uploaded_files:
         # List to store paths of all PDF files
-        pdf_files = []
+        
         # Create a temporary directory to extract the zip file
         with tempfile.TemporaryDirectory() as temp_dir:
-            st.write(temp_dir)
+
+            pdf_files_hc = []
+            pdf_files_smc = []
+            temp_dir_pdf = "temp_dir" + "/pdf"
+
             for i, file in enumerate(uploaded_files):
 
                 temp_dir_num = "temp_dir" + "/" + str(i + 1)
@@ -70,8 +74,8 @@ def main():
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir_num)
-                    
 
+                    st.write(os.walk(temp_dir))
 
                     # Iterate through each file in the unzipped directory
                     for root, dirs, files in os.walk(temp_dir):
