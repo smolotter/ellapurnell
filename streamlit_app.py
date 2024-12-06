@@ -1,5 +1,5 @@
 import streamlit as st
-
+ 
 def main():
     st.title("Dynamic File Uploader")
 
