@@ -5,7 +5,7 @@ def main():
 
     # Create a dropdown menu with options from 1 to 50
     st.markdown("**How many zip files do you have?**")
-    with st.expander("Click here to see examples")    
+    with st.expander("Click here to see examples"):
         st.write("The minimum is 2: One product body + One distribution list.")
         st.write("If there is an annex then 3: One product body + One annex + One distribution list.")
         st.write("If there is a covernote but no annex, also 3: One covernote + One product body + One distribution list.")
