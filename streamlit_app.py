@@ -66,27 +66,25 @@ def main():
 
             for i, file in enumerate(uploaded_files):
 
-                temp_dir_num = temp_dir + "/" + str(i + 1)
-                st.write (temp_dir_num)
                 if file is not None:
-                    st.write(f"File {i+1}: {file.name}")
+                    st.write(f"Processing file {i+1}: {file.name}")
+                    temp_dir_num = temp_dir + "/" + str(i + 1)
 
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir_num)
 
-            st.write("walking")
-            def list_directory(directory):
-                for item in os.listdir(directory):
-                    full_path = os.path.join(directory, item)
-                    st.write(item + ("/" if os.path.isdir(full_path) else ""))
-                    if os.path.isdir(full_path):
-                        list_directory(full_path)
+                    index_html = temp_dir_num + "/index.html"
+                    hc_pdf = temp_dir_pdf + str(i + 1) + "_hc.pdf"
+                    pdf_files_hc.append(hc_pdf)
 
-            list_directory(temp_dir)
-
-            st.write("walked")
-
+                    smc_index_html = temp_dir_num + "/SMC_index.html" 
+                    smc_pdf = temp_dir_pdf + str(i + 1) + "_smc.pdf"
+                    pdf_files_smc.append(smc_pdf)
+                    
+                    
+            st.write (pdf_files_hc)
+            st.write (pdf_files_smc)
 
             #         # Iterate through each file in the unzipped directory
             #         for root, dirs, files in os.walk(temp_dir):
