@@ -109,7 +109,7 @@ def main():
                     st.write(index_html)
                     hc_pdf = temp_dir_pdf + "/" + str(i + 1) + "_hc.pdf"
                     st.write(hc_pdf)
-                    html_to_pdf(index_html, hc_pdf)
+                    hc_pdf = html_to_pdf(index_html, hc_pdf)
                     pdf_files_hc.append(hc_pdf)
 
             list_directory(temp_dir)
