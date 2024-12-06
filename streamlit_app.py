@@ -104,7 +104,7 @@ def main():
                         zip_ref.extractall(path_of_dir)
 
                     path_of_index_html = path_of_dir + "/index.html"
-                    path_of_pdf = path_of_dir + "hc.pdf"
+                    path_of_pdf = path_of_dir + "/hc.pdf"
 
 
                     html_to_pdf(path_of_index_html, path_of_pdf)
