@@ -108,8 +108,8 @@ def main():
                     st.write(hc_pdf)
                     html_to_pdf(index_html, hc_pdf)
                     pdf_files_hc.append(hc_pdf)
-        
-        list_directory(temp_dir)
+
+            list_directory(temp_dir)
 
 
                     # smc_index_html = temp_dir_num + "/SMC_index.html" 
