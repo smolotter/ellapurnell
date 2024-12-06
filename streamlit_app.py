@@ -54,13 +54,6 @@ def combine_pdfs(list_of_individual_files, output_path):
 
     return output_path
 
-def list_directory(directory):
-    for item in os.listdir(directory):
-        full_path = os.path.join(directory, item)
-        st.write(item + ("/" if os.path.isdir(full_path) else ""))
-        if os.path.isdir(full_path):
-            list_directory(full_path)
-
 
 def main():
     st.title("Dynamic File Uploader and PDF Combiner")
@@ -118,8 +111,6 @@ def main():
             combine_pdfs(list_of_pdf_files_hc, path_of_hc_pdf_output)
             path_of_smc_pdf_output = temp_dir + "/output_smc.pdf"
             combine_pdfs(list_of_pdf_files_smc, path_of_smc_pdf_output)
-
-            list_directory(temp_dir)
 
             with open(path_of_hc_pdf_output, 'rb') as f:
                 st.download_button(
