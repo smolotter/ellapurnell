@@ -105,13 +105,13 @@ def main():
                     html_to_pdf(smc_index_html, smc_pdf)
                     pdf_files_smc.append(smc_pdf)
                     
-                st.write (pdf_files_hc)
-                
-                output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
-                combine_pdfs(pdf_files_hc, output_path_hc)
+            # st.write (pdf_files_hc)
+            
+            # output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
+            # combine_pdfs(pdf_files_hc, output_path_hc)
 
-                output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
-                combine_pdfs(pdf_files_smc, output_path_smc)
+            # output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
+            # combine_pdfs(pdf_files_smc, output_path_smc)
 
 
             # # Download the combined PDF
