@@ -34,6 +34,27 @@ def html_to_pdf(html_path, pdf_path):
         st.error(f"Error converting HTML to PDF: {error.decode()}")
     return pdf_path
 
+def combine_pdfs(list_of_individual_files, output_path):
+    """
+    Combines a list of PDFs into a single PDF.
+
+    Parameters:
+    - list_of_individual_files (list): List of paths to individual PDF files to be combined.
+    - output_path (str): Path where the combined PDF will be saved.
+
+    Returns:
+    - output_path (str)
+    """
+    merger = PdfWriter()
+
+    for pdf in list_of_individual_files:
+        merger.append(pdf)
+
+    merger.write(output_path)
+    merger.close()
+
+    return output_path
+
 
 def main():
     st.title("Dynamic File Uploader and PDF Combiner")
@@ -82,31 +103,13 @@ def main():
                     smc_pdf = temp_dir_pdf + str(i + 1) + "_smc.pdf"
                     pdf_files_smc.append(smc_pdf)
                     
-                    
-            st.write (pdf_files_hc)
-            st.write (pdf_files_smc)
+            
+        output_path_hc = os.path.join(temp_dir, "combined_a4.pdf")
+        combine_pdfs(pdf_files_hc, output_path_hc)
 
-            #         # Iterate through each file in the unzipped directory
-            #         for root, dirs, files in os.walk(temp_dir):
-            #             for file in files:
-            #                 if file.endswith(".html"):
-            #                     html_path = os.path.join(root, file)
-            #                     pdf_path = os.path.join(root, file[:-5] + ".pdf")
-            #                     html_to_pdf(html_path, pdf_path)
-            #                 elif file.endswith(".pdf"):
-            #                     pdf_files.append(os.path.join(root, file))
-                    
-            # # Combine PDF files
-            # merger = PdfWriter()
-            # for pdf_file in pdf_files:
-            #     with open(pdf_file, "rb") as f:
-            #         pdf_reader = PdfReader(f)
-            #         for page_num in range(len(pdf_reader.pages)):
-            #             page = pdf_reader.pages[page_num]
-            #             merger.add_page(page)
+        output_path_smc = os.path.join(temp_dir, "combined_smc.pdf")
+        combine_pdfs(pdf_files_smc, output_path_smc)
 
-            # output_path = os.path.join(temp_dir, "combined.pdf")
-            # merger.write(output_path)
 
             # # Download the combined PDF
             # with open(output_path, 'rb') as f:
