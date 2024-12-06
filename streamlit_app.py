@@ -97,19 +97,19 @@ def main():
 
                 if file is not None:
                     st.write(f"Processing file {i+1}: {file.name}")
-                    path_of_zip_dir = temp_dir + "/" + str(i + 1)
+                    path_of_dir = temp_dir + "/" + str(i + 1)
 
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
-                        zip_ref.extractall(path_of_zip_dir)
+                        zip_ref.extractall(path_of_dir)
 
-                    path_of_index_html = path_of_zip_dir + "/index.html"
-                    path_of_pdf = path_of_pdf_dir + "hc.pdf"
+                    path_of_index_html = path_of_dir + "/index.html"
+                    path_of_pdf = path_of_dir + "hc.pdf"
 
 
                     html_to_pdf(path_of_index_html, path_of_pdf)
 
-                    
+
                     list_of_pdf_files_hc.append(path_of_pdf)
 
             list_directory(temp_dir)
