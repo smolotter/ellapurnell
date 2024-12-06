@@ -75,6 +75,7 @@ def main():
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(temp_dir_num)
 
+                    st.write("walking")
                     for item in os.listdir(temp_dir):
                         st.write(item)
 
