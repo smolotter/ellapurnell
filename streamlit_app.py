@@ -56,6 +56,8 @@ def main():
         uploaded_files.append(uploaded_file)
 
     if uploaded_files:
+        # List to store paths of all PDF files
+        pdf_files = []
         for i, file in enumerate(uploaded_files):
             if file is not None:
                 st.write(f"File {i+1}: {file.name}")
@@ -67,11 +69,10 @@ def main():
                 with zipfile.ZipFile(file, 'r') as zip_ref:
                     zip_ref.extractall(temp_dir)
 
-                # List to store paths of all PDF files
-                pdf_files = []
+
 
                 st.write (pdf_files)
-                
+
                 # Iterate through each file in the unzipped directory
                 for root, dirs, files in os.walk(temp_dir):
                     for file in files:
