@@ -80,29 +80,28 @@ def main():
                         elif file.endswith(".pdf"):
                             pdf_files.append(os.path.join(root, file))
 
-                # Combine PDF files
-                merger = PdfWriter()
-                for pdf_file in pdf_files:
-                    with open(pdf_file, "rb") as f:
-                        pdf_reader = PdfReader(f)
-                        for page_num in range(len(pdf_reader.pages)):
-                            page = pdf_reader.pages[page_num]
-                            merger.add_page(page)
+        # Combine PDF files
+        merger = PdfWriter()
+        for pdf_file in pdf_files:
+            with open(pdf_file, "rb") as f:
+                pdf_reader = PdfReader(f)
+                for page_num in range(len(pdf_reader.pages)):
+                    page = pdf_reader.pages[page_num]
+                    merger.add_page(page)
 
-                output_path = os.path.join(temp_dir, "combined.pdf")
-                merger.write(output_path)
+        output_path = os.path.join(temp_dir, "combined.pdf")
+        merger.write(output_path)
 
-                # Download the combined PDF
-                with open(output_path, 'rb') as f:
-                    st.download_button(
-                        label="Download Combined PDF",
-                        data=f,
-                        file_name="combined.pdf",
-                        mime='application/pdf'
-                    )
+        # Download the combined PDF
+        with open(output_path, 'rb') as f:
+            st.download_button(
+                label="Download Combined PDF",
+                data=f,
+                file_name="combined.pdf",
+                mime='application/pdf'
+            )
 
-                # Clean up the temporary directory
-                shutil.rmtree(temp_dir)
+
 
 if __name__ == "__main__":
     main()
