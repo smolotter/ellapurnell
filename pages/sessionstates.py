@@ -1,6 +1,22 @@
 import streamlit as st
 import json
 
+# Define options for multiselect widgets
+fruits = ['apple', 'banana', 'carrot']
+animals = ['dog', 'cow', 'cat']
+drinks = ['water', 'juice', 'soup']
+
+# Initialize session state with default values 
+if 'selected_values' not in st.session_state:
+    st.session_state.selected_values = {
+        'fruits': [],
+        'animals': [],
+        'drinks': []
+    }
+    st.session_state.fruits_select = st.session_state.selected_values['fruits'] 
+    st.session_state.animals_select = st.session_state.selected_values['animals']
+    st.session_state.drinks_select = st.session_state.selected_values['drinks']
+
 # Function to load session state from JSON file
 def load_session_state_from_json():
     uploaded_file = st.file_uploader("Upload Session State (JSON)", type="json")
@@ -8,32 +24,13 @@ def load_session_state_from_json():
         try:
             contents = uploaded_file.read()
             loaded_state = json.loads(contents)
-            st.session_state.selected_values = loaded_state
-
-            # Update multiselect widgets with loaded data
+            st.session_state.selected_values = loaded_state 
             st.session_state.fruits_select = loaded_state['fruits'] 
             st.session_state.animals_select = loaded_state['animals']
             st.session_state.drinks_select = loaded_state['drinks']
-
             st.success("Session state loaded successfully!")
         except json.JSONDecodeError:
             st.error("Invalid JSON file.")
-
-# Initialize session state
-if 'selected_values' not in st.session_state:
-    st.session_state.selected_values = {
-        'fruits': [],
-        'animals': [],
-        'drinks': []
-    }
-    st.session_state.fruits_select = []  # Initialize select options
-    st.session_state.animals_select = []
-    st.session_state.drinks_select = []
-
-# Define options for multiselect widgets
-fruits = ['apple', 'banana', 'carrot']
-animals = ['dog', 'cow', 'cat']
-drinks = ['water', 'juice', 'soup']
 
 # Create multiselect widgets with on_change functions
 def update_fruits():
