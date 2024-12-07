@@ -14,6 +14,13 @@ if 'selected_values' not in st.session_state:
         'drinks': []
     }
 
+if 'fruits_select' not in st.session_state:
+    st.session_state.fruits_select = st.session_state.selected_values['fruits']
+if 'animals_select' not in st.session_state:
+    st.session_state.animals_select = st.session_state.selected_values['animals']
+if 'drinks_select' not in st.session_state:
+    st.session_state.drinks_select = st.session_state.selected_values['drinks']
+
 # Function to load session state from JSON file
 def load_session_state_from_json():
     uploaded_file = st.file_uploader("Upload Session State (JSON)", type="json")
@@ -23,6 +30,7 @@ def load_session_state_from_json():
             loaded_state = json.loads(contents)
             # Check if required keys are in the uploaded JSON
             if all(key in loaded_state for key in ['fruits', 'animals', 'drinks']):
+                # Update session state BEFORE creating widgets
                 st.session_state.selected_values = loaded_state
                 st.session_state.fruits_select = loaded_state['fruits']
                 st.session_state.animals_select = loaded_state['animals']
@@ -32,6 +40,9 @@ def load_session_state_from_json():
                 st.error("Invalid JSON structure. Required keys: 'fruits', 'animals', 'drinks'.")
         except json.JSONDecodeError:
             st.error("Invalid JSON file.")
+
+# Call function to load session state from JSON
+load_session_state_from_json()
 
 # Create multiselect widgets with on_change functions
 def update_fruits():
@@ -43,12 +54,10 @@ def update_animals():
 def update_drinks():
     st.session_state.selected_values['drinks'] = st.session_state.drinks_select
 
+# Widgets are created after session state update
 selected_fruits = st.multiselect('Select Fruits', fruits, key="fruits_select", on_change=update_fruits)
 selected_animals = st.multiselect('Select Animals', animals, key="animals_select", on_change=update_animals)
 selected_drinks = st.multiselect('Select Drinks', drinks, key="drinks_select", on_change=update_drinks)
-
-# Add file uploader for loading session state
-load_session_state_from_json()
 
 # Download session state (JSON)
 def download_json():
