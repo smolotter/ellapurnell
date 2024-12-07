@@ -1,6 +1,18 @@
 import streamlit as st
 import json
 
+# Function to load session state from JSON file
+def load_session_state_from_json():
+    uploaded_file = st.file_uploader("Upload Session State (JSON)", type="json")
+    if uploaded_file is not None:
+        try:
+            contents = uploaded_file.read()
+            loaded_state = json.loads(contents)
+            st.session_state.selected_values = loaded_state
+            st.success("Session state loaded successfully!")
+        except json.JSONDecodeError:
+            st.error("Invalid JSON file.")
+
 # Initialize session state
 if 'selected_values' not in st.session_state:
     st.session_state.selected_values = {
@@ -37,6 +49,9 @@ def download_json():
         file_name="session_state.json",
         mime="application/json"
     )
+
+# Add file uploader for loading session state
+load_session_state_from_json()
 
 download_json()
 
