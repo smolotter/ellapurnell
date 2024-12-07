@@ -1,7 +1,3 @@
-
-
-
-
 import streamlit as st
 import json
 
@@ -50,5 +46,3 @@ st.code(json.dumps(st.session_state.selected_values, indent=4))
 st.write(f"Selected Fruits: {st.session_state.selected_values['fruits']}")
 st.write(f"Selected Animals: {st.session_state.selected_values['animals']}")
 st.write(f"Selected Drinks: {st.session_state.selected_values['drinks']}")
-
-
