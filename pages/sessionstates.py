@@ -15,18 +15,18 @@ animals = ['dog', 'cow', 'cat']
 drinks = ['water', 'juice', 'soup']
 
 # Create multiselect widgets with on_change functions
-def update_fruits(selected):
-    st.session_state.selected_values['fruits'] = selected
+def update_fruits():
+    st.session_state.selected_values['fruits'] = st.session_state.fruits_select
 
-def update_animals(selected):
-    st.session_state.selected_values['animals'] = selected
+def update_animals():
+    st.session_state.selected_values['animals'] = st.session_state.animals_select
 
-def update_drinks(selected):
-    st.session_state.selected_values['drinks'] = selected
+def update_drinks():
+    st.session_state.selected_values['drinks'] = st.session_state.drinks_select
 
-selected_fruits = st.multiselect('Select Fruits', fruits, on_change=update_fruits, key="fruits_select")
-selected_animals = st.multiselect('Select Animals', animals, on_change=update_animals, key="animals_select")
-selected_drinks = st.multiselect('Select Drinks', drinks, on_change=update_drinks, key="drinks_select")
+selected_fruits = st.multiselect('Select Fruits', fruits, key="fruits_select", on_change=update_fruits)
+selected_animals = st.multiselect('Select Animals', animals, key="animals_select", on_change=update_animals)
+selected_drinks = st.multiselect('Select Drinks', drinks, key="drinks_select", on_change=update_drinks)
 
 # Download session state (JSON)
 def download_json():
@@ -37,6 +37,8 @@ def download_json():
         file_name="session_state.json",
         mime="application/json"
     )
+
+download_json()
 
 # Display JSON content
 st.write("Current Session State (JSON):")
