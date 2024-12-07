@@ -24,9 +24,9 @@ def update_animals(selected):
 def update_drinks(selected):
     st.session_state.selected_values['drinks'] = selected
 
-selected_fruits = st.multiselect('Select Fruits', fruits, on_change=update_fruits)
-selected_animals = st.multiselect('Select Animals', animals, on_change=update_animals)
-selected_drinks = st.multiselect('Select Drinks', drinks, on_change=update_drinks)
+selected_fruits = st.multiselect('Select Fruits', fruits, on_change=update_fruits, key="fruits_select")
+selected_animals = st.multiselect('Select Animals', animals, on_change=update_animals, key="animals_select")
+selected_drinks = st.multiselect('Select Drinks', drinks, on_change=update_drinks, key="drinks_select")
 
 # Download session state (JSON)
 def download_json():
