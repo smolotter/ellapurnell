@@ -20,7 +20,7 @@ if 'selected_values' not in st.session_state:
 storage_dir = "session_states"
 os.makedirs(storage_dir, exist_ok=True)
 
-st.write("contents of dir:")
+st.write("Contents of directory:")
 st.write(os.listdir(storage_dir))
 
 
@@ -45,14 +45,14 @@ def load_session_state_from_uuid():
             # Validate and update session state
             if all(key in loaded_state for key in ['fruits', 'animals', 'drinks']):
                 st.session_state.selected_values = loaded_state
-                st.session_state.fruits_select = loaded_state['fruits']
-                st.session_state.animals_select = loaded_state['animals']
-                st.session_state.drinks_select = loaded_state['drinks']
                 st.success("Session state loaded successfully!")
             else:
                 st.error("Invalid JSON structure in the file.")
         else:
             st.error("No file found for the given UUID.")
+
+# Load session state before creating widgets
+load_session_state_from_uuid()
 
 # Function to update session state from widget changes
 def update_fruits():
@@ -64,17 +64,29 @@ def update_animals():
 def update_drinks():
     st.session_state.selected_values['drinks'] = st.session_state.drinks_select
 
-# Create multiselect widgets with on_change functions
-selected_fruits = st.multiselect('Select Fruits', fruits, key="fruits_select", on_change=update_fruits)
-selected_animals = st.multiselect('Select Animals', animals, key="animals_select", on_change=update_animals)
-selected_drinks = st.multiselect('Select Drinks', drinks, key="drinks_select", on_change=update_drinks)
+# Create multiselect widgets with default values from session state
+selected_fruits = st.multiselect(
+    'Select Fruits', fruits, 
+    default=st.session_state.selected_values['fruits'], 
+    key="fruits_select", 
+    on_change=update_fruits
+)
+selected_animals = st.multiselect(
+    'Select Animals', animals, 
+    default=st.session_state.selected_values['animals'], 
+    key="animals_select", 
+    on_change=update_animals
+)
+selected_drinks = st.multiselect(
+    'Select Drinks', drinks, 
+    default=st.session_state.selected_values['drinks'], 
+    key="drinks_select", 
+    on_change=update_drinks
+)
 
 # Button to save the current session state
 if st.button("Save Session State"):
     save_session_state_to_file()
-
-# Text field and button to load a session state by UUID
-load_session_state_from_uuid()
 
 # Display JSON content
 st.write("Current Session State (JSON):")
