@@ -88,11 +88,13 @@ selected_drinks = st.multiselect(
 if st.button("Save Session State"):
     save_session_state_to_file()
 
-# Display JSON content
-st.write("Current Session State (JSON):")
-st.code(json.dumps(st.session_state.selected_values, indent=4))
+with st.expander("Click to save or load drafts:")
 
-# Display selected values
-st.write(f"Selected Fruits: {st.session_state.selected_values['fruits']}")
-st.write(f"Selected Animals: {st.session_state.selected_values['animals']}")
-st.write(f"Selected Drinks: {st.session_state.selected_values['drinks']}")
+    # Display JSON content
+    st.write("Current Session State (JSON):")
+    st.code(json.dumps(st.session_state.selected_values, indent=4))
+
+    # Display selected values
+    st.write(f"Selected Fruits: {st.session_state.selected_values['fruits']}")
+    st.write(f"Selected Animals: {st.session_state.selected_values['animals']}")
+    st.write(f"Selected Drinks: {st.session_state.selected_values['drinks']}")

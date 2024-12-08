@@ -90,22 +90,25 @@ def main():
             for i, file in enumerate(uploaded_files):
 
                 if file is not None:
+                    
                     st.write(f"Processing file {i+1}: {file.name}")
-                    path_of_dir = temp_dir + "/" + str(i + 1)
+                    path_of_dir = os.path.join(temp_dir, str(i + 1))
 
                     # Extract the zip file to the temporary directory
                     with zipfile.ZipFile(file, 'r') as zip_ref:
                         zip_ref.extractall(path_of_dir)
 
-                    path_of_index_html = path_of_dir + "/index.html"
-                    path_of_pdf = path_of_dir + "/hc.pdf"
-                    html_to_pdf(path_of_index_html, path_of_pdf)
-                    list_of_pdf_files_hc.append(path_of_pdf)
+                        # Convert to html
+                        path_of_pdf_hc = html_to_pdf(html_path = os.path.join(path_of_dir, "index.html"),
+                                                    pdf_path = os.path.join(path_of_dir, "hc.pdf")
+                                                    )
+                        list_of_pdf_files_hc.append(path_of_pdf_hc)
 
-                    path_of_SMC_index_html = path_of_dir + "/SMC_index.html"
-                    path_of_pdf = path_of_dir + "/smc.pdf"
-                    html_to_pdf(path_of_SMC_index_html, path_of_pdf)
-                    list_of_pdf_files_smc.append(path_of_pdf)
+                        path_of_pdf_smc = html_to_pdf(html_path = os.path.join(path_of_dir, "SMC_index.html"),
+                                                    pdf_path = os.path.join(path_of_dir, "smc.pdf")
+                                                    )
+                        list_of_pdf_files_hc.append(path_of_pdf_smc)
+
 
             path_of_hc_pdf_output = temp_dir + "/output_a4.pdf"
             combine_pdfs(list_of_pdf_files_hc, path_of_hc_pdf_output)
