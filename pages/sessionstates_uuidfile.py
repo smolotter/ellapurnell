@@ -20,6 +20,10 @@ if 'selected_values' not in st.session_state:
 storage_dir = "session_states"
 os.makedirs(storage_dir, exist_ok=True)
 
+st.write("contents of dir:")
+st.write(os.listdir(storage_dir))
+
+
 # Function to save session state to a JSON file
 def save_session_state_to_file():
     file_uuid = str(uuid.uuid4())  # Generate a unique identifier
