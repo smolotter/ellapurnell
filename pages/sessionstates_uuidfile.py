@@ -88,7 +88,7 @@ selected_drinks = st.multiselect(
 if st.button("Save Session State"):
     save_session_state_to_file()
 
-with st.expander("Click to save or load drafts:")
+with st.expander("Click to save or load drafts:"):
 
     # Display JSON content
     st.write("Current Session State (JSON):")
